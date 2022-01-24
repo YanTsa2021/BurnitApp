@@ -1,0 +1,42 @@
+{
+  "build": {
+    "appId": "com.example.burnit_app"
+  },
+  "project_info": {
+    "project_number": "1060407093714",
+    "project_id": "burnitapp-a1967",
+    "storage_bucket": "burnitapp-a1967.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060407093714:android:82178b374ad5624a77c00b",
+        "android_client_info": {
+          "package_name": "com.example.burnit_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060407093714-uoeg5d78ce6v8g4ta7h6eikmjp2505iq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRWX2gJTJSHE2izUxmLaTaXFMfEXxk_z0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060407093714-uoeg5d78ce6v8g4ta7h6eikmjp2505iq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
