@@ -50,7 +50,7 @@ class MyCustomFormState extends State<Register> {
         appBar: PreferredSize(
             child: Container(
               margin: const EdgeInsets.only(top:40.0),
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
               height: 45.0,
               width: 350.0,
               alignment:Alignment.centerLeft,
@@ -73,9 +73,7 @@ class MyCustomFormState extends State<Register> {
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => LogoPage()));
                               },
-                              child: Container(
-                                child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                              ),
+                              child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                             )
                         ),
                       ),
@@ -90,20 +88,20 @@ class MyCustomFormState extends State<Register> {
                 width: 100,
                 height: 100,
                 alignment:Alignment.center,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage('assets/ImgBurnit.png'),
                     )),
               ),
               Container(
-                margin: EdgeInsets.all(2),
-                padding: EdgeInsets.all(1),
+                margin: const EdgeInsets.all(2),
+                padding: const EdgeInsets.all(1),
               ),
               Container(
                 width: 350,
                 alignment:Alignment.center,
                 child: RichText(
-                  text: TextSpan(text: '           Register',
+                  text: const TextSpan(text: '           Register',
                     style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
                     children: [
                       TextSpan(text: '\n       Please Register to create\n                  New Account', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -114,15 +112,15 @@ class MyCustomFormState extends State<Register> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(7),
-                padding: EdgeInsets.all(7),
+                margin: const EdgeInsets.all(7),
+                padding: const EdgeInsets.all(7),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.name,
                     autocorrect: true,
                     decoration: const InputDecoration(
@@ -141,12 +139,12 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.email,
                     autocorrect: true,
                     decoration: const InputDecoration(
@@ -165,12 +163,12 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.phone,
                     autocorrect: true,
                     decoration: const InputDecoration(
@@ -189,16 +187,16 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.dob,
                     autocorrect: false,
                     readOnly: true,
-                    decoration:  InputDecoration(
+                    decoration:  const InputDecoration(
                       contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: Icon(Icons.calendar_today),
                       border: OutlineInputBorder(),
@@ -227,20 +225,20 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.password,
                     obscureText: _userProfile.showPassword,
                     autocorrect: true,
                     decoration:  InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                      prefixIcon: Icon(Icons.password),
+                      contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      prefixIcon: const Icon(Icons.password),
                       //suffixIcon: Icon(Icons.remove_red_eye),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       hintText: 'Password',
                       labelText: 'Password',
                       suffixIcon: IconButton(
@@ -258,24 +256,24 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                   child:TextFormField(
-                    key: Key('shop_category_filter_input_text_field'),
+                    key: const Key('shop_category_filter_input_text_field'),
                     controller: _userProfile.ConfirmPassword,
                     obscureText: _userProfile.showConfirmPassword,
                     autocorrect: true,
                     decoration: InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
-                      prefixIcon: Icon(Icons.password),
+                      contentPadding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
+                      prefixIcon: const Icon(Icons.password),
                       //suffixIcon: Icon(Icons.remove_red_eye),
-                      border: OutlineInputBorder(),
+                      border: const OutlineInputBorder(),
                       hintText: 'Re-enter password',
                       labelText: 'Re-enter password',
                       suffixIcon: IconButton(
-                        icon: Icon(Icons.visibility_off),
+                        icon: const Icon(Icons.visibility_off),
                         onPressed: () => setState(() => _userProfile.showConfirmPassword = !_userProfile.showConfirmPassword),
                       ),
                     ),
@@ -288,10 +286,10 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
+              SizedBox(
                 width: 350,
                 child: Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 0),
+                  padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
                   child: FormField<bool>(
                     builder: (state) {
                       return Column(
@@ -351,7 +349,7 @@ class MyCustomFormState extends State<Register> {
                     color: Colors.purple,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8.0),
-                        side: BorderSide( color: Colors.purple,width: 1,)
+                        side: const BorderSide( color: Colors.purple,width: 1,)
                     ),
                     child: const Text('Confirm',style: TextStyle(
                       fontSize: 20.0,
@@ -370,15 +368,15 @@ class MyCustomFormState extends State<Register> {
                 ),
               ),
               Container(
-                margin: EdgeInsets.all(3),
-                padding: EdgeInsets.all(3),
+                margin: const EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
               ),
               Container(
                 padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 1),
                 alignment:Alignment.center,
                 child: RichText(
                   text: TextSpan(text: 'Already have an account?',
-                    style: TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.bold,),
+                    style: const TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.bold,),
                     children: [
                       TextSpan(text: ' login', style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
                           recognizer: TapGestureRecognizer()..onTap = (){
@@ -391,12 +389,17 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Container(
-                height: 20.0,
-                width: 350.0,
-                alignment:Alignment.centerRight,
-                child: CheckConnectivity(),
-              ),///
+              Expanded(
+                child:Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    height: 20.0,
+                    width: 350.0,
+                    alignment:Alignment.center,
+                    child: const CheckConnectivity(),
+                  ),
+                ),
+              ),
             ],
           ),
         )

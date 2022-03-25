@@ -102,7 +102,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
           appBar: PreferredSize(
               child: Container(
                 margin: const EdgeInsets.only(top:40.0),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 height: 45.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
@@ -125,9 +125,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => SendOTP(mail: '', key: key, codeVariable: '',)));
                                 },
-                                child: Container(
-                                  child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                                ),
+                                child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                               )
                           ),
                         ),
@@ -143,20 +141,20 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     width: 100,
                     height: 100,
                     alignment:Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/ImgBurnit.png'),
                             )),
                   ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(1),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(1),
                   ),
                   Container(
                     width: 350,
                     alignment:Alignment.center,
                     child: RichText(
-                      text: TextSpan(text: 'Set New Password',
+                      text: const TextSpan(text: 'Set New Password',
                         style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
                         children: [
                           TextSpan(text: '  \nEnter your new password to\n        continue with us', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
@@ -167,23 +165,23 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                   ),
-                  Container(
+                  SizedBox(
                     width: 350,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       child: TextFormField(
-                        key: Key('shop_category_filter_input_text_field'),
+                        key: const Key('shop_category_filter_input_text_field'),
                         obscureText: _userProfile.showPassword,
                         controller: _userProfile.password,
                         autocorrect: true,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.password),
+                          prefixIcon: const Icon(Icons.password),
                           //suffixIcon: Icon(Icons.remove_red_eye),
-                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          border: OutlineInputBorder(),
+                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: const OutlineInputBorder(),
                           hintText: 'Enter new password',
                           labelText: 'Enter new password',
                           suffixIcon: IconButton(
@@ -201,24 +199,24 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     ),
                   ),
 
-                  Container(
+                  SizedBox(
                     width: 350,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       child: TextFormField(
-                        key: Key('shop_category_filter_input_text_field'),
+                        key: const Key('shop_category_filter_input_text_field'),
                         obscureText: _userProfile.showPassword,
                         controller: _userProfile.ConfirmPassword,
                         autocorrect: true,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(Icons.password),
+                          prefixIcon: const Icon(Icons.password),
                           //suffixIcon: Icon(Icons.remove_red_eye),
-                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          border: OutlineInputBorder(),
+                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          border: const OutlineInputBorder(),
                           hintText: 'Re-enter new password',
                           labelText: 'Re-enter new password',
                           suffixIcon: IconButton(
-                            icon: Icon(Icons.visibility_off),
+                            icon: const Icon(Icons.visibility_off),
                             onPressed: () => setState(() => _userProfile.showConfirmPassword = !_userProfile.showConfirmPassword),
                           ),
                         ),
@@ -232,8 +230,8 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(90),
-                    padding: EdgeInsets.all(90),
+                    margin: const EdgeInsets.all(90),
+                    padding: const EdgeInsets.all(90),
                   ),
                   Container(
                     height: 44.0,
@@ -250,7 +248,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                         color: Colors.purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide( color: Colors.purple,width: 1,)
+                            side: const BorderSide( color: Colors.purple,width: 1,)
                         ),
                         child: const Text('Confirm',style: TextStyle(
                           fontSize: 20.0,
@@ -270,12 +268,17 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     ),
                     ),
                   ),
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: CheckConnectivity(),
-                  ),//
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                   //throw UnimplementedError();
                 ],
               ),

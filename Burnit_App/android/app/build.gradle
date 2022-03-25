@@ -22,13 +22,15 @@ if (flutterVersionName == null) {
 }
 
 apply plugin: 'com.android.application'
+//apply plugin: 'me.tatarka.retrolambda'
+//apply plugin: 'realm-android'
 apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 apply plugin: 'com.google.gms.google-services'
 
 android {
-    compileSdkVersion 30
-
+    compileSdkVersion 31
+    buildToolsVersion "27.0.3"
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
@@ -77,4 +79,5 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:latest.release'
     implementation 'com.google.android.gms:play-services-location:18.0.0'
     compile 'com.facebook.android:facebook-android-sdk:12.2.0'
+    //implementation 'com.facebook.android:facebook-android-sdk:12.2.0'
 }

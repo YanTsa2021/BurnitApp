@@ -84,75 +84,83 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
     return Form(
         key: _formKey,
         child: Scaffold(
-          appBar: PreferredSize(
-              child: Container(
-                margin: const EdgeInsets.only(top:40.0),
-                padding: EdgeInsets.symmetric(horizontal: 37, vertical: 7),
-                height: 45.0,
-                width: 350.0,
-                alignment:Alignment.centerLeft,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        Container(
-                          width: 35.0,
-                          alignment:Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                            color: Colors.white60,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Container(
-                              width: 35.0,
-                              alignment:Alignment.center,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => Register()));
-                                },
-                                child: Container(
-                                  child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                                ),
-                              )
-                          ),
-                        ),
-                        Container(
-                          width: 25.0,
-                        ),
-                        Container(
-                          width: 230.0,
-                          alignment:Alignment.center,
-                          child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
-                            fontWeight: FontWeight.bold,),),
-                        ),
-                        Container(
-                          width: 50.0,
-                        ),
-                      ],
+            appBar: AppBar(
+          title: Row(children: [
+            Expanded(
+              child:Align(
+                alignment: Alignment.centerLeft,
+                child:  Container(
+                  width: 35.0,
+                  height: 35.0,
+                  alignment:Alignment.centerLeft,
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      color: Colors.grey,
+                      width: 1,
                     ),
+                    color: Colors.white60,
+                    borderRadius: BorderRadius.circular(8),
                   ),
-            preferredSize: const Size.fromHeight(500.0),
-          ),
+                  child: Container(
+                      width: 35.0,
+                      height: 35.0,
+                      alignment:Alignment.center,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) => Register()));
+                        },
+                        child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
+                      )
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              child:Align(
+                alignment: Alignment.center,
+                child:Container(
+                  width: 260.0,
+                  height: 35.0,
+                  alignment:Alignment.center,
+                  child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
+                    fontWeight: FontWeight.bold,),),
+                ),
+              ),
+            ),
+            Expanded(
+              child:Align(
+                alignment: Alignment.centerRight,
+                child: Container(
+                  width: 5.0,
+                  height: 35.0,
+                  alignment:Alignment.centerRight,
+                ),
+              ),
+            ),
+          ]),
+          centerTitle: true,
+          backgroundColor: Colors.transparent,
+          automaticallyImplyLeading: false,
+          elevation: 0.0, // for elevation
+          titleSpacing: 30.0, //
+        ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
               child: ListView(
                 shrinkWrap: true,
                 children: <Widget>[
                   Container(
-                    margin: EdgeInsets.all(4),
-                    padding: EdgeInsets.all(4),
+                    margin: const EdgeInsets.all(4),
+                    padding: const EdgeInsets.all(4),
                   ),
                   Container(
                     width: 350,
                     alignment:Alignment.centerLeft,
                     child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                     child: RichText(
-                      text: TextSpan(text: ' 01',
+                      text: const TextSpan(text: ' 01',
                         style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
                         children: [
                           TextSpan(text: '/04', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
@@ -164,16 +172,16 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                   ),
                   Container(
                     width: 350,
                     alignment:Alignment.centerLeft,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                     child: RichText(
-                      text: TextSpan(text: ' Enter Height & Weight',
+                      text: const TextSpan(text: ' Enter Height & Weight',
                         style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
                         children: [
                           TextSpan(text: '\n  Lorem ipsum dolar sit amet.', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -185,18 +193,18 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(10),
-                    padding: EdgeInsets.all(10),
+                    margin: const EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                   ),
-                  Container(
+                  SizedBox(
                     width: 350,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       child: TextFormField(
-                        key: Key('shop_category_filter_input_text_field'),
+                        key: const Key('shop_category_filter_input_text_field'),
                         controller: _userProfile.height,
                         autocorrect: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.fitness_center),
                           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: OutlineInputBorder(),
@@ -213,15 +221,15 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                     ),
                   ),
 
-                  Container(
+                  SizedBox(
                     width: 350,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       child: TextFormField(
-                        key: Key('shop_category_filter_input_text_field'),
+                        key: const Key('shop_category_filter_input_text_field'),
                         controller: _userProfile.weight,
                         autocorrect: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.monitor_weight_outlined),
                           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: OutlineInputBorder(),
@@ -238,15 +246,15 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(100),
-                    padding: EdgeInsets.all(90),
+                    margin: const EdgeInsets.all(100),
+                    padding: const EdgeInsets.all(90),
                   ),
                   Container(
                     height: 44.0,
                     width: 350.0,
                     alignment:Alignment.center,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
                       height: 44.0,
                       width: 350.0,// specific value
@@ -256,7 +264,7 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                         color: Colors.purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide( color: Colors.purple,width: 1,)
+                            side: const BorderSide( color: Colors.purple,width: 1,)
                         ),
                         child: const Text('Next',style: TextStyle(
                           fontSize: 20.0,
@@ -275,12 +283,17 @@ class  MyCustomFormState extends State <BasicInfoHeightWeight>{
                     ),
                     ),
                   ),
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: CheckConnectivity(),
-                  ),//
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                   //throw UnimplementedError();
                 ],
               ),

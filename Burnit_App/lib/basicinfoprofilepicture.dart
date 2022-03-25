@@ -1,6 +1,7 @@
 //Basic information profile picture implementation
 
 import 'dart:convert';
+import 'package:burnit_app/addcontactlist.dart';
 import 'package:burnit_app/homepage.dart';
 import 'package:burnit_app/userprofile.dart';
 import 'package:dio/dio.dart';
@@ -9,16 +10,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
-import 'dart:math' as Math;
-import 'package:image/image.dart' as Img;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
-import 'package:async/async.dart';
-import 'package:path_provider/path_provider.dart';
 import 'basicinforesidentinfo.dart';
 import 'dart:io';
-
 import 'checkconnectivity.dart';
 
 void main() {
@@ -65,48 +61,36 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
   }
 
   //Image Picker Model,For Select Images or Capture Image
-  void openImagePickerModal(BuildContext context) {
-    final flatButtonColor = Theme.of(context).primaryColor;
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return Container(
-            height: 180.0,
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                const Text(
-                  'Pick An Image',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                FlatButton(
-                  textColor: flatButtonColor,
-                  child: const Text(
-                    'Use Camera',
-                    style: const TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    Pickimage(context, ImageSource.camera);
-                  },
-                ),
-                FlatButton(
-                  textColor: flatButtonColor,
-                  child: const Text(
-                    'Use Gallery',
-                    style: TextStyle(fontSize: 15),
-                  ),
-                  onPressed: () {
-                    Pickimage(context, ImageSource.gallery);
-                  },
-                ),
-              ],
-            ),
-          );
-        });
+  Future<void>_showChoiceDialog(BuildContext context)
+  {
+    return showDialog(context: context,builder: (BuildContext context){
+
+      return AlertDialog(
+        title: const Text("Choose option",style: TextStyle(color: Colors.blue),),
+        content: SingleChildScrollView(
+          child: ListBody(
+            children: [
+              const Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  Pickimage(context, ImageSource.gallery);
+                },
+                title: const Text("Gallery"),
+                leading: const Icon(Icons.account_box,color: Colors.blue,),
+              ),
+
+              const Divider(height: 1,color: Colors.blue,),
+              ListTile(
+                onTap: (){
+                  Pickimage(context, ImageSource.camera);
+                },
+                title: const Text("Camera"),
+                leading: const Icon(Icons.camera,color: Colors.blue,),
+              ),
+            ],
+          ),
+        ),);
+    });
   }
 
   //Fonction to upload image
@@ -139,7 +123,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
       print(_userProfile.resp);
       Fluttertoast.showToast(msg: _userProfile.resp);
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => HomePage(userId: widget.userId.toString()))
+          builder: (context) => AddContactList(userId: widget.userId.toString()))
       );
     }
     if(response.statusCode == 400){
@@ -191,7 +175,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
          Fluttertoast.showToast(
              msg:  _userProfile.resp ['status']);
           Navigator.push(context, MaterialPageRoute(
-          builder: (context) => HomePage(userId:widget.userId.toString(),))
+          builder: (context) => AddContactList(userId:widget.userId.toString(),))
           );
         }
         if(response.statusCode == 400){
@@ -218,71 +202,75 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
     return Form(
         key: _formKey,
         child: Scaffold(
-            appBar: PreferredSize(
-              child: Container(
-                  margin: const EdgeInsets.only(top:40.0),
-                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                  height: 45.0,
-                  width: 350.0,
-                  alignment:Alignment.centerLeft,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        Container(
+            appBar: AppBar(
+              title: Row(children: [
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerLeft,
+                    child:  Container(
+                      width: 35.0,
+                      height: 35.0,
+                      alignment:Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Container(
                           width: 35.0,
-                          alignment:Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                            color: Colors.white60,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Container(
-                              width: 35.0,
-                              alignment:Alignment.center,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => const BasicInfoResidentInfo(userId:'')));
-                                },
-                                child: Container(
-                                  child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                                ),
-                              )
-                          ),
-                        ),
-                        Container(
-                          width: 25.0,
-                        ),
-                        Container(
-                          width: 210.0,
+                          height: 35.0,
                           alignment:Alignment.center,
-                          child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
-                            fontWeight: FontWeight.bold,),),
-                        ),
-                        Container(
-                          width: 15.0,
-                        ),
-                        Container(
-                            width: 50.0,
-                            alignment:Alignment.centerRight,
-                            child: Text.rich(
-                              TextSpan(text: 'Skip', style: const TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
-                                  recognizer: TapGestureRecognizer()..onTap = (){
-                                    Navigator.push(context, MaterialPageRoute(
-                                        builder: (context) => const HomePage(userId: '',))
-                                    );
-                                  }
-                              ),
-                            )
-                        ),
-                      ],
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => const BasicInfoResidentInfo(userId:'')));
+                            },
+                            child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
+                          )
+                      ),
                     ),
                   ),
-              preferredSize: const Size.fromHeight(500.0),
+                ),
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.center,
+                    child:Container(
+                      width: 230.0,
+                      height: 35.0,
+                      alignment:Alignment.center,
+                      child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
+                        fontWeight: FontWeight.bold,),),
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 45.0,
+                      height: 35.0,
+                      alignment:Alignment.centerRight,
+                        child: Text.rich(
+                          TextSpan(text: 'Skip', style: const TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                              recognizer: TapGestureRecognizer()..onTap = (){
+                                Navigator.push(context, MaterialPageRoute(
+                                    builder: (context) => const HomePage(userId: '',))
+                                );
+                              }
+                          ),
+                        )
+                    ),
+                  ),
+                ),
+              ]),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              automaticallyImplyLeading: false,
+              elevation: 0.0, // for elevation
+              titleSpacing: 30.0, //
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
@@ -341,7 +329,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     alignment:Alignment.center,
                     child: GestureDetector(
                       onTap: () {
-                        openImagePickerModal(context);
+                        _showChoiceDialog(context);
                       },
                       child: CircleAvatar(
                         radius: 150,
@@ -391,7 +379,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                             borderRadius: BorderRadius.circular(8.0),
                             side: const BorderSide( color: Colors.purple,width: 1,)
                         ),
-                        child: const Text('Finish',style: TextStyle(
+                        child: const Text('Next',style: TextStyle(
                           fontSize: 20.0,
                           fontWeight: FontWeight.bold,
                           textBaseline: TextBaseline.alphabetic,
@@ -409,11 +397,16 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     ),
                     ),
                   ),
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: const CheckConnectivity(),
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
                   ),//
                   //throw UnimplementedError();
                 ],

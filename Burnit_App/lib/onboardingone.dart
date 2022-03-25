@@ -62,16 +62,16 @@ class  MyCustomFormState extends State < MyCustomForm>{
             alignment:Alignment.center,
           ),//
           Container(
-            margin: EdgeInsets.all(150),
-            padding: EdgeInsets.all(60),
+            margin: const EdgeInsets.all(150),
+            padding: const EdgeInsets.all(60),
           ),
           Container(
             width: 350,
             alignment:Alignment.centerRight,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
             child: RichText(
-              text: TextSpan(text: '01 ',
+              text: const TextSpan(text: '01 ',
                 style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold,),
                 children: [
                   TextSpan(text: '/ 03', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -91,9 +91,9 @@ class  MyCustomFormState extends State < MyCustomForm>{
             width: 350,
             alignment:Alignment.centerRight,
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
             child: RichText(
-              text: TextSpan(text: '              Get Fit with us',
+              text: const TextSpan(text: '              Get Fit with us',
                 style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
                 children: [
                   TextSpan(text: '\nLorem ipsum dolar sit amet, consectetur'
@@ -113,41 +113,48 @@ class  MyCustomFormState extends State < MyCustomForm>{
             height: 60.0,
             width: 350.0,
             alignment:Alignment.centerRight,
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
+            child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+            child: Row(
               children: <Widget>[
-                Container(
+                Flexible(
+                  child:Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
                     width: 100.0,
                     alignment:Alignment.centerLeft,
                     child: Text.rich(
-                      TextSpan(text: 'Skip', style: TextStyle(color: Colors.black54, fontSize: 15, decoration: TextDecoration.underline,),
+                      TextSpan(text: 'Skip', style: const TextStyle(color: Colors.black54, fontSize: 15, decoration: TextDecoration.underline,),
                           recognizer: TapGestureRecognizer()..onTap = (){
                             Navigator.push(context, MaterialPageRoute(
                                 builder: (context) => LogoPage())
                             );
                           }
                       ),
-                    )
+                    ),
+                   ),
+                  ),
                 ),
-                Container(
+                const SizedBox(
                   width: 110.0,
                 ),
-                Container(
+                Flexible(
+                  child:Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
                   width: 115.0,
                   height: 60.0,
                   alignment:Alignment.center,
                   decoration: BoxDecoration(
                     color: Colors.purple,
                     borderRadius: BorderRadius.circular(8.0),),
-                  child: new RaisedButton(
+                  child: RaisedButton(
                       elevation: 0,
                       textColor: Colors.white,
                       color: Colors.purple,
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(8.0),
-                          side: BorderSide( color: Colors.purple,width: 0.5,)
+                          side: const BorderSide( color: Colors.purple,width: 0.5,)
                       ),
                       child: const Text('Next',style: TextStyle(
                         fontSize: 18.0,
@@ -159,15 +166,17 @@ class  MyCustomFormState extends State < MyCustomForm>{
                         Navigator.push(context, MaterialPageRoute(
                             builder: (context) => OnboardingTwo()));
                       }
+                     ),
+                   ),
                   ),
                 ),
               ],
-
+            ),
             ),
           ),
           Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
           ),//throw Uni
         ],
       ),

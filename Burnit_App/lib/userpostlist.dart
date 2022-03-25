@@ -1,3 +1,4 @@
+//User post list page implementation
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,7 @@ class UserPostList extends StatelessWidget{
 
   //final String apiUrl = "https://randomuser.me/api/?results=10";
   final String apiUrl = "http://api.burnit.socecepme.com/api/feed";
+  final String baseUrl = "http://api.burnit.socecepme.com/public/";
 
   //Fonction to retrieve differents images post from the database
   Future<List<dynamic>> fetchUsersPosts() async {
@@ -53,17 +55,13 @@ class UserPostList extends StatelessWidget{
 
  // }
 
-   String _name(dynamic user){
-     return user['user']['name'];
+   String _name(dynamic post){
+     return post['user']['name'];
 
    }
 
-  //String _location(dynamic user){
-    //return user['location']['country'];
-  //}
-
-  String _time(dynamic user){
-    DateTime time = DateTime.parse(user['user']['created_at']);
+  String _time(dynamic post){
+    DateTime time = DateTime.parse(post['created_at']);
     return convertToAgo(time);
   }
 
@@ -71,15 +69,16 @@ class UserPostList extends StatelessWidget{
    // return ": Age" + user['dob']['age'].toString();
   //}
 
-  String _dot(Map<dynamic, dynamic> user){
+  String _dot(Map<dynamic, dynamic> post){
      return ":" ;
   }
 
-  String _post(Map<dynamic, dynamic> user){
-    //return  user['user']['image_url'];
-    //return  user['image']['feed_image_url'].toString();
-    //return  user['feed_image_url'].toString();
-    return  user['image_url'].toString();
+  String _post(Map<dynamic, dynamic> post){
+    return  baseUrl + post['image_url'];
+  }
+
+  String _profileImage(Map<dynamic, dynamic> post){
+    return  baseUrl + post['user']['profile']['profile_image_url'];
   }
 
   @override
@@ -91,44 +90,46 @@ class UserPostList extends StatelessWidget{
           if(snapshot.hasData){
             //print(_dot(snapshot.data[0]));
             return ListView.builder(
-               // padding: const EdgeInsets.all(20),
+                padding: const EdgeInsets.all(10),
                 itemCount: snapshot.data.length,
                 itemBuilder: (BuildContext context, int index){
                   return
-                    Card(
-                      child: Column(
+                       Column(
                         children: <Widget>[
                           ListTile(
                             leading: CircleAvatar(
                                 radius: 30,
-                                //backgroundImage: NetworkImage(snapshot.data[index]['picture']['large'])),
-                                //backgroundImage: NetworkImage(snapshot.data[index]['image_url'])
+                                backgroundImage: NetworkImage(_profileImage(snapshot.data[index])),
+                                //backgroundImage:  NetworkImage('https://picsum.photos/250?image=9'),
                             ),
-                            title: Text(_name(snapshot.data[index])),
-                            //subtitle: Text(_location(snapshot.data[index])),
+                            title: Text(_name(snapshot.data[index]), style: const TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold,)),
                             subtitle: Text(_time(snapshot.data[index])),
-                            trailing: Text(_dot(snapshot.data[index])),
-                         //: AssetImage(_post(snapshot.data[index])),
+                            trailing: Text(_dot(snapshot.data[index]), style: const TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,)),
                           ),
                           Container (
                             width: 350,
                             height: 200,
-                            alignment:Alignment.centerLeft,
-                            decoration: BoxDecoration(
-                              //color: Colors.grey,
-                                borderRadius: BorderRadius.circular(12.0),
-                                shape: BoxShape.rectangle,
-                                image:  DecorationImage(
-                                  fit:BoxFit.fill,
-                                  //image: AssetImage(_post(snapshot.data[index])),
-                                  image: NetworkImage('https://picsum.photos/250?image=9'),
-                                )
-                            ),),
-
-
+                            alignment:Alignment.center,
+                              child: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                                child: Container(
+                                  width: 350,
+                                  height: 200,
+                                  alignment:Alignment.center,
+                                  padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                                  decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(12.0),
+                                  shape: BoxShape.rectangle,
+                                    image:  DecorationImage(
+                                      fit:BoxFit.fill,
+                                      image: NetworkImage(_post(snapshot.data[index])),
+                                    ),
+                                  ),
+                              ),
+                            ),
+                          ),
                         ],
-                      ),
-                    );
+                      );
                 });
           }else {
             return const Center(child: CircularProgressIndicator());

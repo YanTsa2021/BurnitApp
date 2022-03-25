@@ -120,7 +120,7 @@ class CustomViewState extends State <SendOTP>{
           appBar: PreferredSize(
               child: Container(
                 margin: const EdgeInsets.only(top:40.0),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 height: 45.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
@@ -143,7 +143,7 @@ class CustomViewState extends State <SendOTP>{
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => ForgotPassWord()));
                                 },
-                                child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
+                                child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                               )
                           ),
                         ),
@@ -159,13 +159,13 @@ class CustomViewState extends State <SendOTP>{
                     width: 100,
                     height: 100,
                     alignment:Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/ImgBurnit.png'),)),
                   ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(1),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(1),
                   ),
                   Container(
                     width: 350,
@@ -182,8 +182,8 @@ class CustomViewState extends State <SendOTP>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(1),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(1),
                   ),
                   SizedBox(
                     height: 32,
@@ -199,7 +199,7 @@ class CustomViewState extends State <SendOTP>{
                       filledAfterTextChange: false,
                       textStyle: const TextStyle(fontSize: 16),
                       borderStyle: OutlineInputBorder(
-                          borderSide: BorderSide( color: Colors.white70,width: 0.5,),
+                          borderSide: const BorderSide( color: Colors.white70,width: 0.5,),
                           borderRadius: BorderRadius.circular(8)),
                       onOtpCallback: (code, isAutofill) =>
                           _onOtpCallBack(code, isAutofill),
@@ -209,9 +209,9 @@ class CustomViewState extends State <SendOTP>{
                       width: 350,
                       alignment:Alignment.centerRight,
                     child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40, vertical: 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
                       child: Text.rich(
-                        TextSpan(text: 'Resend OTP', style: TextStyle(color: Colors.green, fontSize: 14,fontWeight: FontWeight.bold,),
+                        TextSpan(text: 'Resend OTP', style: const TextStyle(color: Colors.green, fontSize: 14,fontWeight: FontWeight.bold,),
                             recognizer: TapGestureRecognizer()..onTap = (){
                               ResendOTP();
                             }
@@ -220,8 +220,8 @@ class CustomViewState extends State <SendOTP>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(110),
-                    padding: EdgeInsets.all(100),
+                    margin: const EdgeInsets.all(110),
+                    padding: const EdgeInsets.all(100),
                   ),
                   Container(
                     height: 44.0,
@@ -238,7 +238,7 @@ class CustomViewState extends State <SendOTP>{
                         color: Colors.purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide( color: Colors.purple,width: 1,)
+                            side: const BorderSide( color: Colors.purple,width: 1,)
                         ),
                         child: const Text('verify',style: TextStyle(
                           fontSize: 20.0,
@@ -272,13 +272,17 @@ class CustomViewState extends State <SendOTP>{
                       ),
                     ),
                   ),
-
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: CheckConnectivity(),
-                  ),//
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                   //throw UnimplementedError();
                 ],
               ),

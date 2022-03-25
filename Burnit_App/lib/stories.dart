@@ -50,14 +50,25 @@ class Stories {
     "hasStory": true,
   }
 ];
-  List conversationList = [
+  List liveList = [
     {
-      "name": "Novac",
-      "imageUrl": 'https://randomuser.me/api/portraits/men/31.jpg',
+      "name": "Anika Botosh",
+      "imageUrl": 'https://randomuser.me/api/portraits/women/41.jpg',
       "isOnline": true,
       "hasStory": true,
       //"message": "Where are you?",
       //"time": "5:00 pm"
+    },
+  ];
+
+  List postList = [
+    {
+      "name": "Dulce Septimus",
+      "imageUrl": 'https://randomuser.me/api/portraits/women/31.jpg',
+      "isOnline": true,
+      "hasStory": true,
+      //"message": "Where are you?",
+      "time": "2h ago"
     },
   ];
 
@@ -226,20 +237,20 @@ class Stories {
       ),
     );
   }
-  conversations(BuildContext context) {
+  liveUsers(BuildContext context) {
     return Column(
-      children: List.generate(conversationList.length, (index) {
+      children: List.generate(liveList.length, (index) {
         return InkWell(
           child: Padding(
             padding: const EdgeInsets.only(bottom: 20),
             child: Row(
               children: <Widget>[
-                Container(
+                SizedBox(
                   width: 50,
                   height: 50,
                   child: Stack(
                     children: <Widget>[
-                      conversationList[index]['hasStory'] ?
+                      liveList[index]['hasStory'] ?
                       Container(
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
@@ -254,7 +265,7 @@ class Stories {
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
                                     image: NetworkImage(
-                                        conversationList[index]['imageUrl']),
+                                        liveList[index]['imageUrl']),
                                     fit: BoxFit.cover)),
                           ),
                         ),
@@ -266,10 +277,10 @@ class Stories {
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: NetworkImage(
-                                    conversationList[index]['imageUrl']),
+                                    liveList[index]['imageUrl']),
                                 fit: BoxFit.cover)),
                       ),
-                      conversationList[index]['isOnline']
+                      liveList[index]['isOnline']
                           ? Positioned(
                         top: 38,
                         left: 42,
@@ -277,40 +288,133 @@ class Stories {
                           width: 20,
                           height: 20,
                           decoration: BoxDecoration(
-                              color: Color(0xFF66BB6A),
+                              color: const Color(0xFF66BB6A),
                               shape: BoxShape.circle,
-                              border: Border.all(color: Color(0xFFFFFFFF), width: 3)),
+                              border: Border.all(color: const Color(0xFFFFFFFF), width: 3)),
                         ),
                       )
                           : Container()
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      conversationList[index]['name'],
-                      style:
-                      TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
-                    ),
                     SizedBox(
+                      width: 75,
+                      height: 40,
+                      child: Text(
+                        liveList[index]['name'],
+                        style:
+                        const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(
                       height: 5,
                     ),
-                    //SizedBox(
-                     // width: MediaQuery.of(context).size.width - 135,
-                      //child: Text(
-                        //conversationList[index]['message'] +
-                           // " - " +
-                            //conversationList[index]['time'],
-                        //style: TextStyle(
-                           // fontSize: 15, color: Color(0xFF000000).withOpacity(0.7)),
-                        //overflow: TextOverflow.ellipsis,
-                      //),
-                    //)
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      }),
+    );
+  }
+
+  usersPosts(BuildContext context) {
+    return Column(
+      children: List.generate(postList.length, (index) {
+        return InkWell(
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 20),
+            child: Row(
+              children: <Widget>[
+                SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: Stack(
+                    children: <Widget>[
+                      postList[index]['hasStory'] ?
+                      Container(
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border:
+                            Border.all(color: Colors.blueAccent, width: 3)),
+                        child: Padding(
+                          padding: const EdgeInsets.all(3.0),
+                          child: Container(
+                            width: 75,
+                            height: 75,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: NetworkImage(
+                                        postList[index]['imageUrl']),
+                                    fit: BoxFit.cover)),
+                          ),
+                        ),
+                      )
+                          : Container(
+                        width: 70,
+                        height: 70,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                    postList[index]['imageUrl']),
+                                fit: BoxFit.cover)),
+                      ),
+                      postList[index]['isOnline']
+                          ? Positioned(
+                        top: 38,
+                        left: 42,
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                              color: const Color(0xFF66BB6A),
+                              shape: BoxShape.circle,
+                              border: Border.all(color: const Color(0xFFFFFFFF), width: 3)),
+                        ),
+                      )
+                          : Container()
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 75,
+                      height: 40,
+                      child: Text(
+                        postList[index]['name'],
+                          style:
+                          const TextStyle(fontSize: 17, fontWeight: FontWeight.w500),
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
+                    SizedBox(
+                       //width: MediaQuery.of(context).size.width - 135,
+                       width: 50,
+                       child: Text(
+                         //postList[index]['message'] +
+                          //" - " +
+                         postList[index]['time'],
+                         style: TextStyle(
+                           fontSize: 15, color: const Color(0xFF000000).withOpacity(0.7)),
+                           overflow: TextOverflow.ellipsis,
+                       ),
+                    ),
                   ],
                 )
               ],

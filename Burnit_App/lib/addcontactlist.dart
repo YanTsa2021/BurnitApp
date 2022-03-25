@@ -1,15 +1,16 @@
-//Basic information resident information implementation
+//Add contact list page implementation
 
 import 'dart:convert';
 
+import 'package:burnit_app/contactlist.dart';
+import 'package:burnit_app/homepage.dart';
 import 'package:burnit_app/userprofile.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
-
-import 'basicinfofitnessgoal.dart';
 import 'basicinfoprofilepicture.dart';
 import 'checkconnectivity.dart';
 
@@ -17,21 +18,21 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => const BasicInfoResidentInfo(userId: '',),
+      '/': (context) => const AddContactList(userId: '',),
     },
   ));
 }
 
-class BasicInfoResidentInfo extends StatefulWidget {
+class AddContactList extends StatefulWidget {
   final String userId;
-  const BasicInfoResidentInfo({key, required this.userId});
+  const AddContactList({key, required this.userId});
   @override
   MyCustomFormState createState() {
     return   MyCustomFormState();
   }
 }
 
-class  MyCustomFormState extends State < BasicInfoResidentInfo>{
+class  MyCustomFormState extends State <AddContactList>{
   // we get the instance of the userprofile class just as we would create a new instance.
   final UserProfile _userProfile = UserProfile();
   final _formKey = GlobalKey<FormState>();
@@ -43,13 +44,14 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
     print('Form submitted');
   }
 
-  //Fonction to add users basic resident information
-  void sendDataUserResidentInfo() async {
+  //Fonction to add users contact list
+  void sendDataUserContactDetails() async {
     print(widget.userId.toString());
-    final response = await http.put(Uri.parse('http://api.burnit.socecepme.com/api/user-information/step3/'+widget.userId.toString()), body: {
+    final response = await http.post(Uri.parse('http://api.burnit.socecepme.com/api/contact'), body: {
       "user_id":  widget.userId.toString(),
-      "country": _userProfile.country.text,
-      "zipcode": _userProfile.zipcode.text,
+      "name": _userProfile.name.text,
+      "phone": _userProfile.phone.text,
+      "email": _userProfile.email.text,
     });
 
     _userProfile.apidata = response.body; //get JSON decoded data from response
@@ -62,7 +64,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
       print(_userProfile.resp);
       Fluttertoast.showToast(msg: _userProfile.resp);
       Navigator.push(context, MaterialPageRoute(
-          builder: (context) => BasicInfoProfilePicture(userId: widget.userId.toString(),))
+          builder: (context) => HomePage(userId: widget.userId.toString(),))
       );
     }
     if(response.statusCode == 400){
@@ -109,7 +111,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => BasicInfoFitnessGoal(userId: '')));
+                                  builder: (context) => BasicInfoProfilePicture(userId: '')));
                             },
                             child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                           )
@@ -124,7 +126,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                       width: 260.0,
                       height: 35.0,
                       alignment:Alignment.center,
-                      child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
+                      child: const Text('Add Contact List',style: TextStyle(color: Colors.black, fontSize: 20,
                         fontWeight: FontWeight.bold,),),
                     ),
                   ),
@@ -160,16 +162,16 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     alignment:Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
-                    child: RichText(
-                      text: const TextSpan(text: ' 03',
-                        style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
-                        children: [
-                          TextSpan(text: '/04', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                      child: RichText(
+                        text: const TextSpan(text: ' 05',
+                          style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
+                          children: [
+                            TextSpan(text: '/05', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
 
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                    ),
                     ),
                   ),
                   Container(
@@ -181,16 +183,16 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     alignment:Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
-                    child: RichText(
-                      text: const TextSpan(text: ' Where do you live?',
-                        style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
-                        children: [
-                          TextSpan(text: '\n  Lorem ipsum dolar sit amet.', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
+                      child: RichText(
+                        text: const TextSpan(text: ' Can I have your contact details?',
+                          style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
+                          children: [
+                            TextSpan(text: '\n  Lorem ipsum dolar sit amet.', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
-                          )
-                        ],
+                            )
+                          ],
+                        ),
                       ),
-                     ),
                     ),
                   ),
                   Container(
@@ -201,28 +203,20 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     width: 350,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                      child: TextFormField(
+                      child:TextFormField(
                         key: const Key('shop_category_filter_input_text_field'),
-                        controller: _userProfile.country,
+                        controller: _userProfile.name,
                         autocorrect: true,
-                        decoration: InputDecoration(
-                          prefixIcon: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: Image.asset(
-                              'assets/usaflag.jpg',
-                              width: 20,
-                              height: 20,
-                              fit: BoxFit.fill,
-                            ),
-                          ),
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          border: const OutlineInputBorder(),
-                          hintText: 'Country',
-                          labelText: 'Country',
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          prefixIcon: Icon(Icons.person),
+                          border: OutlineInputBorder(),
+                          labelText: 'Full Name',
+                          hintText: 'Enter your full name',
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter valid country';
+                            return 'Please enter some text';
                           }
                           return null;
                         },
@@ -234,23 +228,63 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     width: 350,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                      child: TextFormField(
+                      child:TextFormField(
                         key: const Key('shop_category_filter_input_text_field'),
-                        controller: _userProfile.zipcode,
+                        controller: _userProfile.phone,
                         autocorrect: true,
-                        decoration: InputDecoration(
-                          prefixIcon: Icon(IconData(_userProfile.iconCode, fontFamily: 'MaterialIcons')),// Will display "Up arrow" icon from the list
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                          border: const OutlineInputBorder(),
-                          hintText: 'Zip code',
-                          labelText: 'Zip code',
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          prefixIcon: Icon(Icons.phone),
+                          border: OutlineInputBorder(),
+                          hintText: 'Enter a phone number',
+                          labelText: 'Phone',
                         ),
                         validator: (value) {
                           if (value!.isEmpty) {
-                            return 'Please enter valid zip code';
+                            return 'Please enter valid phone number';
                           }
                           return null;
                         },
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    width: 350,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      child:TextFormField(
+                        key: const Key('shop_category_filter_input_text_field'),
+                        controller: _userProfile.email,
+                        autocorrect: true,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          prefixIcon: Icon(Icons.email),
+                          border: OutlineInputBorder(),
+                          hintText: 'E-mail',
+                          labelText: 'Email',
+                        ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please enter valid email address';
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 350,
+                    alignment:Alignment.centerRight,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                      child: Text.rich(
+                        TextSpan(text: 'contact list?', style: const TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
+                            recognizer: TapGestureRecognizer()..onTap = (){
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => ContactList(userId: '',))
+                              );
+                            }
+                        ),
                       ),
                     ),
                   ),
@@ -264,31 +298,31 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                    child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
-                      child: RaisedButton(
-                        elevation: 0,
-                        textColor: Colors.white,
-                        color: Colors.purple,
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8.0),
-                            side: const BorderSide( color: Colors.purple,width: 1,)
+                      child: SizedBox(
+                        height: 44.0,
+                        width: 350.0,// specific value
+                        child: RaisedButton(
+                          elevation: 0,
+                          textColor: Colors.white,
+                          color: Colors.purple,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8.0),
+                              side: const BorderSide( color: Colors.purple,width: 1,)
+                          ),
+                          child: const Text('Finish',style: TextStyle(
+                            fontSize: 20.0,
+                            fontWeight: FontWeight.bold,
+                            textBaseline: TextBaseline.alphabetic,
+                          ),),
+                          onPressed: () {
+                            // It returns true if the form is valid, otherwise returns false
+                            if (_formKey.currentState!.validate()) {
+                              _submit();
+                              sendDataUserContactDetails();
+                            }
+                          },
                         ),
-                        child: const Text('Next',style: TextStyle(
-                          fontSize: 20.0,
-                          fontWeight: FontWeight.bold,
-                          textBaseline: TextBaseline.alphabetic,
-                        ),),
-                        onPressed: () {
-                          // It returns true if the form is valid, otherwise returns false
-                          if (_formKey.currentState!.validate()) {
-                            _submit();
-                            sendDataUserResidentInfo();
-                          }
-                        },
                       ),
-                    ),
                     ),
                   ),
                   Expanded(

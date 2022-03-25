@@ -1,14 +1,13 @@
-import 'dart:io';
+//Login form implementation
+
 import 'package:burnit_app/onboardingthree.dart';
 import 'package:burnit_app/userprofile.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'checkconnectivity.dart';
 import 'guest.dart';
-import 'network_aware_widget.dart';
 import 'register.dart';
 import 'forgotpassword.dart';
 
@@ -53,7 +52,7 @@ class MyCustomFormState extends State<Login> {
           appBar: PreferredSize(
             child: Container(
               margin: const EdgeInsets.only(top:40.0),
-              padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
               height: 45.0,
               width: 350.0,
               alignment:Alignment.centerLeft,
@@ -93,19 +92,19 @@ class MyCustomFormState extends State<Login> {
                       width: 100,
                       height: 100,
                       alignment:Alignment.center,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                           image: DecorationImage(
                               image: AssetImage('assets/ImgBurnit.png'),)),
                     ),
                     Container(
-                      margin: EdgeInsets.all(2),
-                      padding: EdgeInsets.all(1),
+                      margin: const EdgeInsets.all(2),
+                      padding: const EdgeInsets.all(1),
                     ),
                     Container(
                       width: 350,
                       alignment:Alignment.center,
                       child: RichText(
-                        text: TextSpan(text: '   Welcome Back',
+                        text: const TextSpan(text: '   Welcome Back',
                           style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
                           children: [
                             TextSpan(text: '    \nPlease login to your account\n        to continue with us', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -116,18 +115,18 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(7),
-                      padding: EdgeInsets.all(7),
+                      margin: const EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(7),
                     ),
-                    Container(
+                    SizedBox(
                       width: 350,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                         child: TextFormField(
-                          key: Key('shop_category_filter_input_text_field'),
+                          key: const Key('shop_category_filter_input_text_field'),
                           controller: _userProfile.email,
                           autocorrect: true,
-                          decoration: InputDecoration(
+                          decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
                             contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                             border: OutlineInputBorder(),
@@ -143,20 +142,20 @@ class MyCustomFormState extends State<Login> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: 350,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                         child: TextFormField(
-                          key: Key('shop_category_filter_input_text_field'),
+                          key: const Key('shop_category_filter_input_text_field'),
                           obscureText: _userProfile.showPassword,
                           controller: _userProfile.password,
                           autocorrect: true,
                           decoration: InputDecoration(
-                            prefixIcon: Icon(Icons.password),
+                            prefixIcon: const Icon(Icons.password),
                             //suffixIcon: Icon(Icons.remove_red_eye),
                             //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                            border: OutlineInputBorder(),
+                            border: const OutlineInputBorder(),
                             hintText: 'Password',
                             labelText: 'Password',
                             suffixIcon: IconButton(
@@ -177,9 +176,9 @@ class MyCustomFormState extends State<Login> {
                         width: 350,
                         alignment:Alignment.centerRight,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                         child: Text.rich(
-                          TextSpan(text: 'Forgot Password?', style: TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
+                          TextSpan(text: 'Forgot Password?', style: const TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
                               recognizer: TapGestureRecognizer()..onTap = (){
                                 Navigator.push(context, MaterialPageRoute(
                                     builder: (context) => ForgotPassWord())
@@ -190,15 +189,15 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(7),
-                      padding: EdgeInsets.all(7),
+                      margin: const EdgeInsets.all(7),
+                      padding: const EdgeInsets.all(7),
                     ),
                     Container(
                       height: 44.0,
                       width: 350.0,
                       alignment:Alignment.center,
                       child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                       child: SizedBox(
                         height: 44.0,
                         width: 350.0,// specific value
@@ -208,7 +207,7 @@ class MyCustomFormState extends State<Login> {
                           color: Colors.purple,
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(8.0),
-                              side: BorderSide( color: Colors.purple,width: 1,)
+                              side: const BorderSide( color: Colors.purple,width: 1,)
                           ),
                           child: const Text('Login',style: TextStyle(
                             fontSize: 20.0,
@@ -226,17 +225,17 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                   ),
                     Container(
                       padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 1),
                       alignment:Alignment.center,
                       child: RichText(
                         text: TextSpan(text: 'Continue as',
-                          style: TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
+                          style: const TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
                           children:[
-                            TextSpan(text: ' Guest', style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
+                            TextSpan(text: ' Guest', style: const TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
                                 recognizer: TapGestureRecognizer()..onTap = (){
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => Guest())
@@ -248,15 +247,15 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                     Container(
-                      margin: EdgeInsets.all(10),
-                      padding: EdgeInsets.all(10),
+                      margin: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.all(10),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top:60.0),
                       height: 20,
                       width: 350.0,
                       alignment:Alignment.center,
-                      child: Text('or',
+                      child: const Text('or',
                         style: TextStyle(color: Colors.black54, fontSize: 14.0),
                       ),
                     ),
@@ -265,72 +264,79 @@ class MyCustomFormState extends State<Login> {
                       width: 350.0,
                       alignment:Alignment.center,
                       child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                      child: Row(
                         children: <Widget>[
-                          Container(
-                            width: 170.0,
-                            alignment:Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                            decoration: BoxDecoration(
-                              color: Colors.redAccent,
-                              borderRadius: BorderRadius.circular(8.0),),
-                            child: new RaisedButton(
-                                elevation: 0,
-                                textColor: Colors.white,
-                                color: Colors.redAccent,
-                                child: const Text('Google',style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  textBaseline: TextBaseline.alphabetic,
+                          Flexible(
+                            child:Align(
+                              alignment: Alignment.centerLeft,
+                              child: SizedBox(
+                                height: 44.0,
+                                width: 170.0,// specific value
+                                child: RaisedButton(
+                                  elevation: 0,
+                                  textColor: Colors.white,
+                                  color: Colors.redAccent,
+                                  shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(8.0),
+                                      side: const BorderSide(  color: Colors.redAccent,width: 1,)
+                                  ),
+                                  child: const Text('Google',style: TextStyle(
+                                    fontSize: 20.0,
+                                    fontWeight: FontWeight.bold,
+                                    textBaseline: TextBaseline.alphabetic,
+                                  ),),
+                                  onPressed: () {
+                                    // _userProfile.launchURL("http://www.google.com");
+                                    _userProfile.handleSignIn(context);
+                                  },
                                 ),
-                                ),
-                                onPressed: () {
-                                  // _userProfile.launchURL("http://www.google.com");
-                                  _userProfile.handleSignIn(context);
-                                }
+                              ),
                             ),
                           ),
-                          Container(
+                          const SizedBox(
+                            height: 44.0,
                             width: 10.0,
                           ),
-                          Container(
-                            width: 170.0,
-                            alignment:Alignment.center,
-                            padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 0),
-                            decoration: BoxDecoration(
-                              color: Colors.indigo,
-                              borderRadius: BorderRadius.circular(8.0),),
-                            child: new RaisedButton(
-                                elevation: 0,
-                                textColor: Colors.white,
-                                color: Colors.indigo,
-                                child: const Text('Facebook',style: TextStyle(
-                                  fontSize: 20.0,
-                                  fontWeight: FontWeight.bold,
-                                  textBaseline: TextBaseline.alphabetic,
+                          Flexible(
+                            child:Align(
+                              alignment: Alignment.centerRight,
+                              child: SizedBox(
+                                height: 44.0,
+                                width: 170.0,// specific value
+                                child: RaisedButton(
+                                    elevation: 0,
+                                    textColor: Colors.white,
+                                    color: Colors.indigo,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(8.0),
+                                        side: const BorderSide(color: Colors.indigo,width: 1,)
+                                    ),
+                                    child: const Text('Facebook',style: TextStyle(
+                                      fontSize: 20.0,
+                                      fontWeight: FontWeight.bold,
+                                      textBaseline: TextBaseline.alphabetic,
+                                    ),),
+                                    onPressed: () {
+                                      //_userProfile.launchURL("http://www.facebook.com");
+                                      _userProfile.initiateFacebookLogin(context);
+                                    }
                                 ),
-                                ),
-                                onPressed: () {
-                                  //_userProfile.launchURL("http://www.facebook.com");
-                                  _userProfile.initiateFacebookLogin(context);
-                                }
+                              ),
                             ),
                           ),
                         ],
-                      ),
-                      ),
+                       ),
+                     ),
                     ),
                     Container(
                       margin: const EdgeInsets.only(top:12.0),
                       alignment:Alignment.center,
                       child: RichText(
                         text: TextSpan(text: 'Dont have an account?',
-                          style: TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
+                          style: const TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
                           children: [
-                            TextSpan(text: ' Register', style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
+                            TextSpan(text: ' Register', style: const TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
                                 recognizer: TapGestureRecognizer()..onTap = (){
                                   Navigator.push(context, MaterialPageRoute(
                                       builder: (context) => Register())
@@ -341,12 +347,17 @@ class MyCustomFormState extends State<Login> {
                         ),
                       ),
                     ),
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: CheckConnectivity(),
-                  ),///throw UnimplementedError();
+                    Expanded(
+                      child:Align(
+                        alignment: Alignment.center,
+                        child: Container(
+                          height: 20.0,
+                          width: 350.0,
+                          alignment:Alignment.center,
+                          child: const CheckConnectivity(),
+                        ),
+                      ),
+                    ),///throw UnimplementedError();
                   ],
                 ),
             ),

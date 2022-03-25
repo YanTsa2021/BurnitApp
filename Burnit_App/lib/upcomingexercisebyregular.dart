@@ -1,102 +1,35 @@
 //Upcoming exercise by regular page implementation
 
-import 'package:burnit_app/basicinfoprofilepicture.dart';
-import 'package:burnit_app/newsfeed.dart';
+import 'package:burnit_app/addvideo.dart';
+import 'package:burnit_app/homepage.dart';
 import 'package:burnit_app/upcomingexercisebycoach.dart';
-import 'package:flutter/gestures.dart';
+import 'package:burnit_app/userpostvideo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'checkconnectivity.dart';
 import 'stories.dart';
 
 void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => UpComingExerciseByRegular(),
+      '/': (context) => const UpComingExerciseByRegular(userId: '',),
     },
   ));
 }
 
-class UpComingExerciseByRegular extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-            appBar: AppBar(
-              bottom: PreferredSize(
-                  child: Container(
-                    margin: const EdgeInsets.only(top:2.0),
-                    height: 35.0,
-                    width: 350.0,
-                    alignment:Alignment.center,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: <Widget>[
-                        Container(
-                          width: 35.0,
-                          alignment:Alignment.centerLeft,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Colors.grey,
-                              width: 1,
-                            ),
-                            color: Colors.white60,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Container(
-                              width: 35.0,
-                              alignment:Alignment.center,
-                              child: GestureDetector(
-                                onTap: () {
-                                  Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => UpComingExerciseByCoach()));
-                                },
-                                child: Container(
-                                  child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                                ),
-                              )
-                          ),
-                        ),
-                        Container(
-                          width: 20.0,
-                        ),
-                        Container(
-                          width: 230.0,
-                          alignment:Alignment.center,
-                          child: const Text('Exercise',style: TextStyle(color: Colors.black, fontSize: 20,
-                            fontWeight: FontWeight.bold,),),
-                        ),
-                        Container(
-                          width: 60.0,
-                        ),
-                      ],
-                    ),
-                  ),
-                  preferredSize: Size.fromHeight(kToolbarHeight)),
-              centerTitle: true,
-              backgroundColor: Colors.transparent,
-              elevation: 0.0,
-              toolbarHeight: 0.2,
-            ),
-            resizeToAvoidBottomInset: false, // set it to false
-            body: Center(
-                child: MyCustomForm()
-            )
-        )
-    );
-  }
-}
+class UpComingExerciseByRegular extends StatefulWidget {
+  final String userId;
+  const UpComingExerciseByRegular({key, required this.userId});
 
-class MyCustomForm extends StatefulWidget {
   @override
   MyCustomFormState createState() {
     return   MyCustomFormState();
   }
 }
 
-class  MyCustomFormState extends State < MyCustomForm>{
+class  MyCustomFormState extends State <UpComingExerciseByRegular>{
   // we get the instance of the stories class just as we would create a new instance.
   final Stories _story = Stories();
   final _formKey = GlobalKey<FormState>();
@@ -106,241 +39,191 @@ class  MyCustomFormState extends State < MyCustomForm>{
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top:0.0),
-            height: 44.0,
-            width: 350.0,
-            alignment:Alignment.center,
-            child: new ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: <Widget>[
-                Container(
-                  width: 172.0,
-                  alignment:Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.white38,
-                    borderRadius: BorderRadius.circular(8.0),),
-                  child: new RaisedButton(
-                      elevation: 0,
-                      textColor: Colors.grey,
-                      color: Colors.white38,
-                      child: const Text('By Coach',style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        textBaseline: TextBaseline.alphabetic,
-                      ),
-                      ),
-                      onPressed: () {
-                      }
-                  ),
-                ),
-                Container(
-                  width: 0.0,
-                ),
-                Container(
-                  width: 172.0,
-                  alignment:Alignment.center,
-                  decoration: BoxDecoration(
-                    color: Colors.purple,
-                    borderRadius: BorderRadius.circular(8.0),),
-                  child: new RaisedButton(
-                      elevation: 0,
-                      textColor: Colors.white,
-                      color: Colors.purple,
-                      child: const Text('All Exercise',style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        textBaseline: TextBaseline.alphabetic,
-                      ),
-                      ),
-                      onPressed: () {
-
-                      }
-                  ),
-                ),
-              ],
-
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(4),
-            padding: EdgeInsets.all(4),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top:2.0),
-            height: 40.0,
-            width: 350.0,
-            alignment:Alignment.center,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: <Widget>[
-                Container(
-                  width: 330,
-                  height: 40,
-                  child: Container(
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            _story.conversations(context),
-                          ],
+        key: _formKey,
+        child: Scaffold(
+            appBar: AppBar(
+              title: Row(children: [
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: 35.0,
+                      height: 35.0,
+                      alignment:Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
                         ),
-                      ],
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Container(
+                          width: 35.0,
+                          height: 35.0,
+                          alignment:Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => HomePage(userId: widget.userId.toString(),)));
+                            },
+                            child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
+                          )
+                      ),
                     ),
                   ),
                 ),
-                Container(
-                  width: 10.0,
-                ),
-                Container(
-                    width: 10.0,
-                    alignment:Alignment.center,
-                    child: Text.rich(
-                      TextSpan(text: ':', style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold,),
-                          recognizer: TapGestureRecognizer()..onTap = (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => BasicInfoProfilePicture(userId: '',))
-                            );
-                          }
-                      ),
-                    )
-                ),
-              ],
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(2),
-          ),
-          Container(
-            width: 350,
-            height: 200,
-            alignment:Alignment.center,
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8.0),
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                    image: AssetImage('assets/ImgUpcomingExerciseThree.png'),
-                    fit: BoxFit.cover)),
-
-          ),
-          Container(
-            //padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 1),
-            width: 350,
-            margin: const EdgeInsets.only(top:5.0),
-            alignment:Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(text: 'Incline Push Ups',
-                style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold,),
-                children: [
-                  TextSpan(text: '               12Reps * 4Sets * 10Min', style: TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
-
-                  )
-                ],
-              ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(3),
-            padding: EdgeInsets.all(3),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top:2.0),
-            height: 40.0,
-            width: 350.0,
-            alignment:Alignment.center,
-            child: ListView(
-              scrollDirection: Axis.horizontal,
-              shrinkWrap: true,
-              children: <Widget>[
-                Container(
-                  width: 330,
-                  height: 40,
-                  child: Container(
-                    child: ListView(
-                      scrollDirection: Axis.vertical,
-                      shrinkWrap: true,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            _story.conversations(context),
-                          ],
-                        ),
-                      ],
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.center,
+                    child:Container(
+                        width: 230.0,
+                        alignment:Alignment.center,
+                        child: const Text('Exercise',style: TextStyle(color: Colors.black, fontSize: 20,
+                          fontWeight: FontWeight.bold,),)
                     ),
                   ),
                 ),
-                Container(
-                  width: 10.0,
-                ),
-                Container(
-                    width: 10.0,
-                    alignment:Alignment.center,
-                    child: Text.rich(
-                      TextSpan(text: ':', style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold,),
-                          recognizer: TapGestureRecognizer()..onTap = (){
-                            Navigator.push(context, MaterialPageRoute(
-                                builder: (context) => BasicInfoProfilePicture(userId: '',))
-                            );
-                          }
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: 35.0,
+                      height: 35.0,
+                      alignment:Alignment.centerRight,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.grey,
+                          width: 1,
+                        ),
+                        color: Colors.white60,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    )
+                      child: Container(
+                          width: 35.0,
+                          height: 35.0,
+                          alignment:Alignment.center,
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(context, MaterialPageRoute(
+                                  builder: (context) => AddVideo(userId: widget.userId.toString(),)));
+                            },
+                            child: const Icon(Icons.add,size: 20, color: Colors.black,),
+                          )
+                      ),
+                    ),
+                  ),
                 ),
-              ],
+              ]),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              automaticallyImplyLeading: false,
+              elevation: 0.0, // for elevation
+              titleSpacing: 30.0, //
             ),
-          ),
-          Container(
-            margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(2),
-          ),
-          Container(
-            width: 350,
-            height: 200,
-            alignment:Alignment.center,
-            decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(8.0),
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                    image: AssetImage('assets/ImgUpcomingExerciseFour.png'),
-                    fit: BoxFit.cover)),
-          ),
-          Container(
-            //padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 1),
-            width: 350,
-            margin: const EdgeInsets.only(top:5.0),
-            alignment:Alignment.centerLeft,
-            child: RichText(
-              text: TextSpan(text: 'Weight Lifting (150lbs)',
-                style: TextStyle(color: Colors.black, fontSize: 18,fontWeight: FontWeight.bold,),
-                children: [
-                  TextSpan(text: '    8Reps * 4Sets * 20Min', style: TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
-
-                  )
+            resizeToAvoidBottomInset: false, // set it to false
+            body: Center(
+              child: ListView(
+                shrinkWrap: true,
+                scrollDirection: Axis.vertical,
+                children: <Widget>[
+                          Container(
+                            height: 44.0,
+                            width: 350.0,
+                            alignment:Alignment.center,
+                            child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                              child: Row(
+                              children: <Widget>[
+                                Flexible(
+                                   child:Align(
+                                   alignment: Alignment.centerLeft,
+                                     child: Container(
+                                    width: 172.0,
+                                    alignment:Alignment.center,
+                                    decoration: BoxDecoration(
+                                    color: Colors.white38,
+                                    borderRadius: BorderRadius.circular(8.0),),
+                                    child: RaisedButton(
+                                      elevation: 0,
+                                      textColor: Colors.grey,
+                                      color: Colors.white38,
+                                      child: const Text('By Coach',style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        textBaseline: TextBaseline.alphabetic,
+                                      ),
+                                      ),
+                                        onPressed: () {
+                                          Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => UpComingExerciseByCoach(userId:widget.userId.toString(),)));
+                                        }
+                                       ),
+                                     ),
+                                   ),
+                                ),
+                                Container(
+                                  width: 6.0,
+                                ),
+                                Flexible(
+                                  child:Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Container(
+                                  width: 172.0,
+                                  alignment:Alignment.center,
+                                  decoration: BoxDecoration(
+                                    color: Colors.purple,
+                                    borderRadius: BorderRadius.circular(8.0),),
+                                     child: RaisedButton(
+                                      elevation: 0,
+                                      textColor: Colors.white,
+                                      color: Colors.purple,
+                                      child: const Text('All Exercise',style: TextStyle(
+                                        fontSize: 16.0,
+                                        fontWeight: FontWeight.bold,
+                                        textBaseline: TextBaseline.alphabetic,
+                                      ),
+                                      ),
+                                      onPressed: () {
+                                        Navigator.push(context, MaterialPageRoute(
+                                            builder: (context) => UpComingExerciseByRegular(userId:widget.userId.toString(),)));
+                                      }
+                                  ),
+                                  ),
+                                  ),
+                                ),
+                              ],
+                             ),
+                            ),
+                          ),
+                  Container(
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
+                  ),
+                  Container(
+                    height: 700.0,
+                    width: 350.0,
+                    alignment:Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                      child: UserPostVideo(),
+                    ),
+                  ),
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
-            ),
-          ),
-          Container(
-            margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(2),
-          ),
-          //throw UnimplementedError();
-        ],
-      ),
+            )
+        )
     );
   }
 }

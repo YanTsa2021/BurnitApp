@@ -40,19 +40,14 @@ class  MyCustomFormState extends State <Posts>{
     return Form(
         key: _formKey,
         child: Scaffold(
-            appBar: PreferredSize(
-              child: Container(
-                margin: const EdgeInsets.only(top:40.0),
-                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                height: 45.0,
-                width: 350.0,
-                alignment:Alignment.centerLeft,
-                child: ListView(
-                  scrollDirection: Axis.horizontal,
-                  shrinkWrap: true,
-                  children: <Widget>[
-                    Container(
+            appBar: AppBar(
+              title: Row(children: [
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
                       width: 35.0,
+                      height: 35.0,
                       alignment:Alignment.centerLeft,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -64,32 +59,36 @@ class  MyCustomFormState extends State <Posts>{
                       ),
                       child: Container(
                           width: 35.0,
+                          height: 35.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => const NewsFeed(userId: '',)));
+                                  builder: (context) => NewsFeed(userId: widget.userId.toString(),)));
                             },
-                            child: Container(
-                              child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                            ),
+                            child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                           )
                       ),
                     ),
-                    Container(
-                      width: 20.0,
+                  ),
+                ),
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.center,
+                    child:Container(
+                        width: 230.0,
+                        alignment:Alignment.center,
+                        child: const Text('Posts',style: TextStyle(color: Colors.black, fontSize: 20,
+                          fontWeight: FontWeight.bold,),)
                     ),
-                    Container(
-                      width: 230.0,
-                      alignment:Alignment.center,
-                      child: const Text('Posts',style: TextStyle(color: Colors.black, fontSize: 20,
-                        fontWeight: FontWeight.bold,),),
-                    ),
-                    Container(
-                      width: 25.0,
-                    ),
-                    Container(
+                  ),
+                ),
+                Expanded(
+                  child:Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
                       width: 35.0,
+                      height: 35.0,
                       alignment:Alignment.centerRight,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -101,6 +100,7 @@ class  MyCustomFormState extends State <Posts>{
                       ),
                       child: Container(
                           width: 35.0,
+                          height: 35.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -111,10 +111,14 @@ class  MyCustomFormState extends State <Posts>{
                           )
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
-              preferredSize: const Size.fromHeight(500.0),
+              ]),
+              centerTitle: true,
+              backgroundColor: Colors.transparent,
+              automaticallyImplyLeading: false,
+              elevation: 0.0, // for elevation
+              titleSpacing: 30.0, //
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
@@ -128,16 +132,21 @@ class  MyCustomFormState extends State <Posts>{
                     width: 350.0,
                     alignment:Alignment.center,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                          child: UserPostList(),
                     ),
                   ),
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: const CheckConnectivity(),
-                  ),///th//throw UnimplementedError();
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             )

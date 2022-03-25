@@ -46,7 +46,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
             appBar: PreferredSize(
               child: Container(
                 margin: const EdgeInsets.only(top:40.0),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 height: 45.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
@@ -85,7 +85,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     width: 100,
                     height: 100,
                     alignment:Alignment.center,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/ImgBurnit.png'),)),
                   ),
@@ -97,7 +97,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     width: 350,
                     alignment:Alignment.center,
                     child: RichText(
-                      text: TextSpan(text: '   Forgot Password',
+                      text: const TextSpan(text: '   Forgot Password',
                         style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
                         children: [
                           TextSpan(text: '    \nEnter your e-mail or phone number to\n        send a reset password link', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -108,18 +108,18 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(8),
-                    padding: EdgeInsets.all(8),
+                    margin: const EdgeInsets.all(8),
+                    padding: const EdgeInsets.all(8),
                   ),
-                  Container(
+                  SizedBox(
                     width: 350,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                       child: TextFormField(
-                        key: Key('shop_category_filter_input_text_field'),
+                        key: const Key('shop_category_filter_input_text_field'),
                         controller: _userProfile.email,
                         autocorrect: true,
-                        decoration: InputDecoration(
+                        decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.email),
                           contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: OutlineInputBorder(),
@@ -136,8 +136,8 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(110),
-                    padding: EdgeInsets.all(90),
+                    margin: const EdgeInsets.all(110),
+                    padding: const EdgeInsets.all(90),
                   ),
                   Container(
                     height: 44.0,
@@ -154,7 +154,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
                         color: Colors.purple,
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8.0),
-                            side: BorderSide( color: Colors.purple,width: 1,)
+                            side: const BorderSide( color: Colors.purple,width: 1,)
                         ),
                         child: const Text('Send code',style: TextStyle(
                           fontSize: 20.0,
@@ -172,15 +172,15 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     ),
                   ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(2),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(2),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(vertical: 1,horizontal: 1),
                     alignment:Alignment.center,
                     child: RichText(
                       text: TextSpan(text: 'Already have an account?',
-                        style: TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.bold,),
+                        style: const TextStyle(color: Colors.black54, fontSize: 14, fontWeight: FontWeight.bold,),
                         children: <InlineSpan>[
                           TextSpan(text: ' login', style: TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
                               recognizer: TapGestureRecognizer()..onTap = (){
@@ -193,13 +193,17 @@ class MyCustomFormState extends State <ForgotPassWord>{
                       ),
                     ),
                   ),
-
-                  Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.centerRight,
-                    child: CheckConnectivity(),
-                  ),//
+                  Expanded(
+                    child:Align(
+                      alignment: Alignment.center,
+                      child: Container(
+                        height: 20.0,
+                        width: 350.0,
+                        alignment:Alignment.center,
+                        child: const CheckConnectivity(),
+                      ),
+                    ),
+                  ),
                   //throw UnimplementedError();
                 ],
                ),

@@ -46,6 +46,9 @@ class UserProfile {
   final heading = TextEditingController();
   final description = TextEditingController();
   final tog = TextEditingController();
+  final reps = TextEditingController();
+  final sets = TextEditingController();
+  final time = TextEditingController();
   final List <String> fitnessGoals = <String> [];
 
 
@@ -70,10 +73,12 @@ class UserProfile {
   var superheros_length; //for data featching status
   String _otpCode = "";
   String _email = "";
+  String _storyImage = "";
 
   //Getters implementation
   String get otpCode => _otpCode;
   String get emailAdd => _email;
+  String get storyImage  => _storyImage;
 
   bool submittable() {
     return agreedToTOS;
@@ -82,6 +87,7 @@ class UserProfile {
   //setters implementation
   set otpCode (String value) => _otpCode = value;
   set emailAdd (String value) => _email = value;
+  set storyImage (String value) => _storyImage = value;
 
   void setAgreedToTOS(bool newValue) {
     //setState(() {
@@ -107,6 +113,9 @@ class UserProfile {
     print(heading.text);
     print(description.text);
     print(tog.text);
+    print(reps.text);
+    print(sets.text);
+    print(time.text);
     print(specificGoal.text);
     print(measuredGoal.text);
     print(achievableGoal.text);

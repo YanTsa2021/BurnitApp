@@ -5,10 +5,14 @@ buildscript {
         google()  // Google's Maven repository
         mavenCentral()
         jcenter()
+        //maven { url "https://maven.google.com" }
+        //jcenter { url "http://jcenter.bintray.com/"}
     }
 
     dependencies {
         classpath 'com.android.tools.build:gradle:4.1.0'
+        //classpath 'me.tatarka:gradle-retrolambda:3.6.1'
+        //classpath "io.realm:realm-gradle-plugin:3.1.4"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'com.google.gms:google-services:4.3.8'
     }
@@ -20,6 +24,8 @@ allprojects {
         google()  // Google's Maven repository
         mavenCentral()
         jcenter()
+        //maven { url "https://maven.google.com" }
+        //jcenter { url "http://jcenter.bintray.com/"}
     }
 }
 

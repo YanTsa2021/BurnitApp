@@ -1,9 +1,8 @@
-//Upcoming exercise by coach page implementation
+//Contact List page implementation
 
-import 'package:burnit_app/addvideo.dart';
+import 'package:burnit_app/addcontactlist.dart';
 import 'package:burnit_app/homepage.dart';
-import 'package:burnit_app/upcomingexercisebyregular.dart';
-import 'package:burnit_app/userpostvideo.dart';
+import 'package:burnit_app/usercontactlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -14,14 +13,14 @@ void main() {
   runApp(MaterialApp(
     initialRoute: '/',
     routes: {
-      '/': (context) => const UpComingExerciseByCoach(userId: '',),
+      '/': (context) => const ContactList(userId: '',),
     },
   ));
 }
 
-class UpComingExerciseByCoach extends StatefulWidget {
+class ContactList extends StatefulWidget {
   final String userId;
-  const UpComingExerciseByCoach({key, required this.userId});
+  const ContactList({key, required this.userId});
 
   @override
   MyCustomFormState createState() {
@@ -29,7 +28,7 @@ class UpComingExerciseByCoach extends StatefulWidget {
   }
 }
 
-class  MyCustomFormState extends State <UpComingExerciseByCoach>{
+class  MyCustomFormState extends State <ContactList>{
   // we get the instance of the stories class just as we would create a new instance.
   final Stories _story = Stories();
   final _formKey = GlobalKey<FormState>();
@@ -65,7 +64,7 @@ class  MyCustomFormState extends State <UpComingExerciseByCoach>{
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => HomePage(userId: widget.userId.toString(),)));
+                                  builder: (context) => const AddContactList(userId: '',)));
                             },
                             child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
                           )
@@ -79,7 +78,7 @@ class  MyCustomFormState extends State <UpComingExerciseByCoach>{
                     child:Container(
                         width: 230.0,
                         alignment:Alignment.center,
-                        child: const Text('Exercise',style: TextStyle(color: Colors.black, fontSize: 20,
+                        child: const Text('Contact List',style: TextStyle(color: Colors.black, fontSize: 20,
                           fontWeight: FontWeight.bold,),)
                     ),
                   ),
@@ -106,9 +105,9 @@ class  MyCustomFormState extends State <UpComingExerciseByCoach>{
                           child: GestureDetector(
                             onTap: () {
                               Navigator.push(context, MaterialPageRoute(
-                                  builder: (context) => AddVideo(userId: widget.userId.toString(),)));
+                                  builder: (context) => HomePage(userId: widget.userId.toString(),)));
                             },
-                            child: const Icon(Icons.add,size: 20, color: Colors.black,),
+                            child: const Icon(Icons.home,size: 20, color: Colors.black,),
                           )
                       ),
                     ),
@@ -128,85 +127,13 @@ class  MyCustomFormState extends State <UpComingExerciseByCoach>{
                 scrollDirection: Axis.vertical,
                 children: <Widget>[
                   Container(
-                    height: 44.0,
-                    width: 350.0,
-                    alignment:Alignment.center,
-                    child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                    child: Row(
-                      children: <Widget>[
-                      Flexible(
-                        child:Align(
-                        alignment: Alignment.centerLeft,
-                          child: Container(
-                          width: 172.0,
-                          alignment:Alignment.center,
-                          decoration: BoxDecoration(
-                            color: Colors.purple,
-                            borderRadius: BorderRadius.circular(8.0),),
-                          child: RaisedButton(
-                              elevation: 0,
-                              textColor: Colors.white,
-                              color: Colors.purple,
-                              child: const Text('By Coach',style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                textBaseline: TextBaseline.alphabetic,
-                              ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => UpComingExerciseByCoach(userId:widget.userId.toString(),)));
-                              }
-                             ),
-                            ),
-                          ),
-                        ),
-                        Container(
-                          width: 6.0,
-                        ),
-                        Flexible(
-                          child:Align(
-                            alignment: Alignment.centerRight,
-                            child: Container(
-                            width: 172.0,
-                            alignment:Alignment.center,
-                            decoration: BoxDecoration(
-                            color: Colors.white38,
-                            borderRadius: BorderRadius.circular(8.0),),
-                            child: RaisedButton(
-                              elevation: 0,
-                              textColor: Colors.grey,
-                              color: Colors.white38,
-                              child: const Text('All Exercise',style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                textBaseline: TextBaseline.alphabetic,
-                              ),
-                              ),
-                              onPressed: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => UpComingExerciseByRegular(userId:widget.userId.toString(),)));
-                              }
-                             ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    ),
-                  ),
-                  Container(
-                    margin: const EdgeInsets.all(2),
-                    padding: const EdgeInsets.all(2),
-                  ),
-                  Container(
-                    height: 700.0,
+                    height: 750.0,
+                    //height: double.infinity,
                     width: 350.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                      child: UserPostVideo(),
+                      child: UserContactList(),
                     ),
                   ),
                   Expanded(

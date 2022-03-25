@@ -26,7 +26,7 @@ class Guest extends StatelessWidget {
           appBar: PreferredSize(
               child: Container(
                 margin: const EdgeInsets.only(top:40.0),
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 height: 45.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
@@ -34,15 +34,15 @@ class Guest extends StatelessWidget {
                           width: 35.0,
                           height: 35.0,
                           alignment:Alignment.centerLeft,
-                          child: new RaisedButton(
+                          child: RaisedButton(
                               textColor: Colors.black,
                               color: Colors.white,
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0),
-                                  side: BorderSide( color: Colors.white,width: 0.5,)
+                                  side: const BorderSide( color: Colors.white,width: 0.5,)
                               ),
                               child: const Text('<',textAlign: TextAlign.center,style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 26.0,
                                 fontWeight: FontWeight.normal,
                                 textBaseline: TextBaseline.alphabetic,
                               ),
@@ -98,20 +98,20 @@ class  MyCustomFormState extends State < MyCustomForm>{
             width: 100,
             height: 100,
             alignment:Alignment.center,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
                 image: DecorationImage(
                     image: AssetImage('assets/ImgBurnit.png'),
                     )),
           ),
           Container(
-            margin: EdgeInsets.all(2),
-            padding: EdgeInsets.all(1),
+            margin: const EdgeInsets.all(2),
+            padding: const EdgeInsets.all(1),
           ),
           Container(
             width: 350,
             alignment:Alignment.center,
             child: RichText(
-              text: TextSpan(text: '   Welcome Guest',
+              text: const TextSpan(text: '   Welcome Guest',
                 style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
                 children: [
                   TextSpan(text: '    \nPlease login to your account\n        to continue with us', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -122,18 +122,18 @@ class  MyCustomFormState extends State < MyCustomForm>{
             ),
           ),
           Container(
-            margin: EdgeInsets.all(10),
-            padding: EdgeInsets.all(10),
+            margin: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
           ),
-          Container(
+          SizedBox(
               width: 350,
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 child: TextFormField(
-                  key: Key('shop_category_filter_input_text_field'),
+                  key: const Key('shop_category_filter_input_text_field'),
                 controller: _userProfile.email,
                 autocorrect: true,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: Icon(Icons.email),
                   contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                   border: OutlineInputBorder(),
@@ -150,20 +150,20 @@ class  MyCustomFormState extends State < MyCustomForm>{
             ),
           ),
 
-          Container(
+          SizedBox(
               width: 350,
             child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                 child: TextFormField(
-                  key: Key('shop_category_filter_input_text_field'),
+                  key: const Key('shop_category_filter_input_text_field'),
                 obscureText: _userProfile.showPassword,
                 controller: _userProfile.password,
                 autocorrect: true,
                 decoration: InputDecoration(
-                  prefixIcon: Icon(Icons.password),
+                  prefixIcon: const Icon(Icons.password),
                   //suffixIcon: Icon(Icons.remove_red_eye),
-                  contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                  border: OutlineInputBorder(),
+                  contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                  border: const OutlineInputBorder(),
                   hintText: 'Enter password',
                   labelText: 'Enter password',
                   suffixIcon: IconButton(
@@ -182,14 +182,16 @@ class  MyCustomFormState extends State < MyCustomForm>{
           ),
 
           Container(
-            margin: EdgeInsets.all(90),
-            padding: EdgeInsets.all(80),
+            margin: const EdgeInsets.all(90),
+            padding: const EdgeInsets.all(80),
           ),
           Container(
             height: 44.0,
-            width: 150.0,
+            width: 350.0,
             alignment:Alignment.center,
-            child: SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+              child: SizedBox(
               height: 44.0,
               width: 350.0,// specific value
               child: RaisedButton(
@@ -198,7 +200,7 @@ class  MyCustomFormState extends State < MyCustomForm>{
                 color: Colors.purple,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(8.0),
-                    side: BorderSide( color: Colors.purple,width: 1,)
+                    side: const BorderSide( color: Colors.purple,width: 1,)
                 ),
                 child: const Text('Login',style: TextStyle(
                   fontSize: 20.0,
@@ -222,12 +224,13 @@ class  MyCustomFormState extends State < MyCustomForm>{
                     }
                   }
                 },
+               ),
               ),
             ),
           ),
           Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(5),
+            margin: const EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
           ),
           //throw UnimplementedError();
         ],
