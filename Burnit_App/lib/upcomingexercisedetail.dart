@@ -51,7 +51,7 @@ class UpComingExerciseDetail extends StatelessWidget {
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) => UpComingExerciseByRegular()));
+                                      builder: (context) => UpComingExerciseByRegular(userId: '',)));
                                 },
                                 child: Container(
                                   child: Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
@@ -139,7 +139,7 @@ class  MyCustomFormState extends State < MyCustomForm>{
                       children: [
                         Row(
                           children: <Widget>[
-                            _story.conversations(context),
+                            //_story.conversations(context),
                           ],
                         ),
                       ],

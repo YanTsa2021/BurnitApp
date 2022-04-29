@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:connectivity/connectivity.dart';
 
-enum NetworkStatus { Online, Offline }
+enum NetworkStatus { Online, Offline}
 
 class NetworkStatusService {
   StreamController<NetworkStatus> networkStatusController =

@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 import 'login.dart';
 
 void main() {
@@ -98,16 +100,31 @@ class  MyCustomFormState extends State <SetNewPassWord>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+        breakpoints: [
+           ResponsiveBreakpoint.resize(480, name: MOBILE),
+           ResponsiveBreakpoint.autoScale(800, name: TABLET),
+           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+           ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+        ],
+         child:SizedBox(
+         width: 1000.0,
+         //width: MediaQuery.of(context).size.width,
+         height: MediaQuery.of(context).size.height * 1.19,
+         //height: 1000,
         child: Scaffold(
           appBar: PreferredSize(
               child: Container(
-                margin: const EdgeInsets.only(top:40.0),
+                margin: const EdgeInsets.only(top:50.0),
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                height: 45.0,
+                height: 50.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
                 child: Container(
-                          width: 35.0,
+                          width: 40.0,
                           alignment:Alignment.centerLeft,
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -118,7 +135,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Container(
-                              width: 35.0,
+                              width: 40.0,
                               alignment:Alignment.center,
                               child: GestureDetector(
                                 onTap: () {
@@ -134,12 +151,15 @@ class  MyCustomFormState extends State <SetNewPassWord>{
           ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 100,
+               child: OrientationBuilder(
+               builder: (BuildContext context, Orientation orientation) {
+               return ListView(
+                 shrinkWrap: true,
+                 scrollDirection: Axis.vertical,
+                 children: <Widget>[
+                 Container(
+                    width: 200,
+                    height: 200,
                     alignment:Alignment.center,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
@@ -154,10 +174,11 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     width: 350,
                     alignment:Alignment.center,
                     child: RichText(
+                      textAlign: TextAlign.center,
                       text: const TextSpan(text: 'Set New Password',
-                        style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
+                        style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                         children: [
-                          TextSpan(text: '  \nEnter your new password to\n        continue with us', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
+                          TextSpan(text: '\nEnter your new password to\ncontinue with us', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                           )
                         ],
@@ -180,7 +201,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.password),
                           //suffixIcon: Icon(Icons.remove_red_eye),
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          //contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: const OutlineInputBorder(),
                           hintText: 'Enter new password',
                           labelText: 'Enter new password',
@@ -211,7 +232,7 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                         decoration: InputDecoration(
                           prefixIcon: const Icon(Icons.password),
                           //suffixIcon: Icon(Icons.remove_red_eye),
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          //contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: const OutlineInputBorder(),
                           hintText: 'Re-enter new password',
                           labelText: 'Re-enter new password',
@@ -234,14 +255,14 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     padding: const EdgeInsets.all(90),
                   ),
                   Container(
-                    height: 44.0,
-                    width: 350.0,
+                    height: 50.0,
+                    width: 450.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
+                      height: 50.0,
+                      width: 450.0,// specific value
                       child: RaisedButton(
                         elevation: 0,
                         textColor: Colors.white,
@@ -268,22 +289,23 @@ class  MyCustomFormState extends State <SetNewPassWord>{
                     ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
                   ),
-                  //throw UnimplementedError();
-                ],
-              ),
-            )
-        )
+                 ],
+               );
+               }
+               ),
+            ),
+           ),
+         ),
+        ),
     );
   }
 }

@@ -11,10 +11,12 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'dart:async';
 import 'package:sms_otp_auto_verify/sms_otp_auto_verify.dart';
 
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 
 
 void main() {
@@ -116,16 +118,29 @@ class CustomViewState extends State <SendOTP>{
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        home: Scaffold(
+        home: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+           ResponsiveBreakpoint.resize(480, name: MOBILE),
+           ResponsiveBreakpoint.autoScale(800, name: TABLET),
+           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+           ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+        ],
+        child:SizedBox(
+        width: 1000.0,
+        height: MediaQuery.of(context).size.height * 1.17,
+        child: Scaffold(
           appBar: PreferredSize(
               child: Container(
-                margin: const EdgeInsets.only(top:40.0),
+                margin: const EdgeInsets.only(top:50.0),
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                height: 45.0,
+                height: 50.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
                         child: Container(
-                          width: 35.0,
+                          width: 40.0,
                           alignment:Alignment.centerLeft,
                           decoration: BoxDecoration(
                             border: Border.all(
@@ -136,7 +151,7 @@ class CustomViewState extends State <SendOTP>{
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Container(
-                              width: 35.0,
+                              width: 40.0,
                               alignment:Alignment.center,
                               child: GestureDetector(
                                 onTap: () {
@@ -152,12 +167,15 @@ class CustomViewState extends State <SendOTP>{
           ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                    width: 100,
-                    height: 100,
+               child: OrientationBuilder(
+               builder: (BuildContext context, Orientation orientation) {
+               return ListView(
+                 shrinkWrap: true,
+                 scrollDirection: Axis.vertical,
+                 children: <Widget>[
+                 Container(
+                    width: 200,
+                    height: 200,
                     alignment:Alignment.center,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
@@ -171,8 +189,9 @@ class CustomViewState extends State <SendOTP>{
                     width: 350,
                     alignment:Alignment.center,
                     child: RichText(
-                      text: TextSpan(text: '           Enter OTP',
-                        style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.center,
+                      text: TextSpan(text: 'Enter OTP',
+                        style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                         children: [
                           TextSpan(text: '\nEnter OTP here to continuing with us', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
@@ -224,14 +243,14 @@ class CustomViewState extends State <SendOTP>{
                     padding: const EdgeInsets.all(100),
                   ),
                   Container(
-                    height: 44.0,
-                    width: 350.0,
+                    height: 50.0,
+                    width: 450.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
+                      height: 50.0,
+                      width: 450.0,// specific value
                       child: RaisedButton(
                         elevation: 0,
                         textColor: Colors.white,
@@ -272,22 +291,23 @@ class CustomViewState extends State <SendOTP>{
                       ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
                   ),
-                  //throw UnimplementedError();
-                ],
-              ),
-            )
-        )
+                 ],
+               );
+               }
+               ),
+            ),
+        ),
+        ),
+        ),
     );
   }
 

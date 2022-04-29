@@ -1,15 +1,31 @@
 //Login form implementation
 
+import 'dart:io';
+
 import 'package:burnit_app/onboardingthree.dart';
 import 'package:burnit_app/userprofile.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'checkconnectivity.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'dart:async';
+import 'dart:convert' show json;
+import 'package:http/http.dart' as http;
+import 'package:responsive_framework/responsive_wrapper.dart';
+import 'dataconnectivity.dart';
 import 'guest.dart';
 import 'register.dart';
 import 'forgotpassword.dart';
+
+GoogleSignIn _googleSignIn = GoogleSignIn(
+  // Optional clientId
+  // clientId: '479882132969-9i9aqik3jfjd7qhci1nqf0bm2g71rm1u.apps.googleusercontent.com',
+  scopes: <String>[
+    'email',
+    'https://www.googleapis.com/auth/contacts.readonly',
+  ],
+);
 
 void main() {
   runApp(MaterialApp(
@@ -36,28 +52,114 @@ class MyCustomFormState extends State<Login> {
   final _formKey = GlobalKey<FormState>();
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
+  GoogleSignInAccount? _currentUser;
+  String _contactText = '';
 
   void _submit() {
     _formKey.currentState!.validate();
     print('Form submitted');
   }
 
+  @override
+  void initState() {
+    super.initState();
+    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+      setState(() {
+        _currentUser = account;
+      });
+      if (_currentUser != null) {
+        _handleGetContact(_currentUser!);
+      }
+    });
+    _googleSignIn.signInSilently();
+  }
+
+  Future<void> _handleGetContact(GoogleSignInAccount user) async {
+    setState(() {
+      _contactText = 'Loading contact info...';
+    });
+    final http.Response response = await http.get(
+      Uri.parse('https://people.googleapis.com/v1/people/me/connections'
+          '?requestMask.includeField=person.names'),
+      headers: await user.authHeaders,
+    );
+    if (response.statusCode != 200) {
+      setState(() {
+        _contactText = 'People API gave a ${response.statusCode} '
+            'response. Check logs for details.';
+      });
+      print('People API ${response.statusCode} response: ${response.body}');
+      return;
+    }
+    final Map<String, dynamic> data =
+    json.decode(response.body) as Map<String, dynamic>;
+    final String? namedContact = _pickFirstNamedContact(data);
+    setState(() {
+      if (namedContact != null) {
+        _contactText = 'I see you know $namedContact!';
+      } else {
+        _contactText = 'No contacts to display.';
+      }
+    });
+  }
+
+  String? _pickFirstNamedContact(Map<String, dynamic> data) {
+    final List<dynamic>? connections = data['connections'] as List<dynamic>?;
+    final Map<String, dynamic>? contact = connections?.firstWhere(
+          (dynamic contact) => contact['names'] != null,
+      orElse: () => null,
+    ) as Map<String, dynamic>?;
+    if (contact != null) {
+      final Map<String, dynamic>? name = contact['names'].firstWhere(
+            (dynamic name) => name['displayName'] != null,
+        orElse: () => null,
+      ) as Map<String, dynamic>?;
+      if (name != null) {
+        return name['displayName'] as String?;
+      }
+    }
+    return null;
+  }
+
+  Future<void> _handleSignIn() async {
+    try {
+      await _googleSignIn.signIn();
+    } catch (error) {
+      print(error);
+    }
+  }
+
+  Future<void> _handleSignOut() => _googleSignIn.disconnect();
 
   @override
   Widget build(BuildContext context) {
-    final screenHeight = MediaQuery.of(context).size.height;
     return Form(
         key: _formKey,
-        child: Scaffold(
+        child: ResponsiveWrapper(
+          maxWidth: 1200,
+          minWidth: 680,
+          defaultScale: true,
+          breakpoints: [
+           ResponsiveBreakpoint.resize(480, name: MOBILE),
+           ResponsiveBreakpoint.autoScale(800, name: TABLET),
+           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+           ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+         ],
+        child:SizedBox(
+          width: 1000.0,
+          //width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 1.19,
+          //height: 1000,
+          child: Scaffold(
           appBar: PreferredSize(
             child: Container(
-              margin: const EdgeInsets.only(top:40.0),
+              margin: const EdgeInsets.only(top:50.0),
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-              height: 45.0,
+              height: 50.0,
               width: 350.0,
               alignment:Alignment.centerLeft,
                   child: Container(
-                    width: 35.0,
+                    width: 40.0,
                     alignment:Alignment.centerLeft,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -68,7 +170,7 @@ class MyCustomFormState extends State<Login> {
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Container(
-                        width: 35.0,
+                        width: 40.0,
                         alignment:Alignment.center,
                         child: GestureDetector(
                           onTap: () {
@@ -84,13 +186,15 @@ class MyCustomFormState extends State<Login> {
             ),
             resizeToAvoidBottomInset: false, // set it to false
           body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                //prototypeItem: CheckConnectivity(),
-                children: <Widget>[
+            child: OrientationBuilder(
+              builder: (BuildContext context, Orientation orientation) {
+              return ListView(
+              shrinkWrap: true,
+              scrollDirection: Axis.vertical,
+              children: <Widget>[
                     Container(
-                      width: 100,
-                      height: 100,
+                      width: 200,
+                      height: 200,
                       alignment:Alignment.center,
                       decoration: const BoxDecoration(
                           image: DecorationImage(
@@ -104,10 +208,11 @@ class MyCustomFormState extends State<Login> {
                       width: 350,
                       alignment:Alignment.center,
                       child: RichText(
-                        text: const TextSpan(text: '   Welcome Back',
-                          style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
+                        textAlign: TextAlign.center,
+                        text: const TextSpan(text: 'Welcome Back',
+                          style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                           children: [
-                            TextSpan(text: '    \nPlease login to your account\n        to continue with us', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                            TextSpan(text: '\nPlease login to your account\nto continue with us', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                             )
                           ],
@@ -119,7 +224,7 @@ class MyCustomFormState extends State<Login> {
                       padding: const EdgeInsets.all(7),
                     ),
                     SizedBox(
-                      width: 350,
+                      width: 450,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                         child: TextFormField(
@@ -128,7 +233,7 @@ class MyCustomFormState extends State<Login> {
                           autocorrect: true,
                           decoration: const InputDecoration(
                             prefixIcon: Icon(Icons.email),
-                            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                            //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                             border: OutlineInputBorder(),
                             hintText: 'Email',
                             labelText: 'E-mail',
@@ -143,7 +248,7 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                     SizedBox(
-                      width: 350,
+                      width: 450,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
                         child: TextFormField(
@@ -193,14 +298,14 @@ class MyCustomFormState extends State<Login> {
                       padding: const EdgeInsets.all(7),
                     ),
                     Container(
-                      height: 44.0,
-                      width: 350.0,
+                      height: 50.0,
+                      width: 450.0,
                       alignment:Alignment.center,
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                       child: SizedBox(
-                        height: 44.0,
-                        width: 350.0,// specific value
+                        height: 50.0,
+                        width: 450.0,// specific value
                         child: RaisedButton(
                           elevation: 0,
                           textColor: Colors.white,
@@ -260,8 +365,8 @@ class MyCustomFormState extends State<Login> {
                       ),
                     ),
                     Container(
-                      height: 44.0,
-                      width: 350.0,
+                      height: 50.0,
+                      width: 450.0,
                       alignment:Alignment.center,
                       child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
@@ -271,8 +376,8 @@ class MyCustomFormState extends State<Login> {
                             child:Align(
                               alignment: Alignment.centerLeft,
                               child: SizedBox(
-                                height: 44.0,
-                                width: 170.0,// specific value
+                                height: 50.0,
+                                width: 220.0,// specific value
                                 child: RaisedButton(
                                   elevation: 0,
                                   textColor: Colors.white,
@@ -289,21 +394,22 @@ class MyCustomFormState extends State<Login> {
                                   onPressed: () {
                                     // _userProfile.launchURL("http://www.google.com");
                                     _userProfile.handleSignIn(context);
+                                    //_handleSignIn();
                                   },
                                 ),
                               ),
                             ),
                           ),
                           const SizedBox(
-                            height: 44.0,
+                            height: 50.0,
                             width: 10.0,
                           ),
                           Flexible(
                             child:Align(
                               alignment: Alignment.centerRight,
                               child: SizedBox(
-                                height: 44.0,
-                                width: 170.0,// specific value
+                                height: 50.0,
+                                width: 220.0,// specific value
                                 child: RaisedButton(
                                     elevation: 0,
                                     textColor: Colors.white,
@@ -333,7 +439,7 @@ class MyCustomFormState extends State<Login> {
                       margin: const EdgeInsets.only(top:12.0),
                       alignment:Alignment.center,
                       child: RichText(
-                        text: TextSpan(text: 'Dont have an account?',
+                        text: TextSpan(text: "D'ont have an account?",
                           style: const TextStyle(color: Colors.black54, fontSize: 14,fontWeight: FontWeight.bold,),
                           children: [
                             TextSpan(text: ' Register', style: const TextStyle(color: Colors.black, fontSize: 14,fontWeight: FontWeight.bold,),
@@ -347,22 +453,24 @@ class MyCustomFormState extends State<Login> {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child:Align(
+                   Align(
                         alignment: Alignment.center,
                         child: Container(
-                          height: 20.0,
+                          height: 50.0,
                           width: 350.0,
                           alignment:Alignment.center,
-                          child: const CheckConnectivity(),
+                          //child: const CheckConnectivity(),
+                          child:  DataConnectivity(),
                         ),
                       ),
-                    ),///throw UnimplementedError();
-                  ],
+                    ],
+                   );
+                 }
                 ),
+               ),
+              ),
             ),
-          //bottomNavigationBar: CheckConnectivity(),
-        ),
+          ),
       );
   }
 }

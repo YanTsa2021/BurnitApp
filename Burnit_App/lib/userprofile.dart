@@ -2,21 +2,19 @@
 
 import 'dart:convert';
 import 'dart:io';
+import 'package:burnit_app/upcomingexercisebycoach.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:http/http.dart' as http;
-import 'dart:developer' as developer;
 import 'dart:async';//For StreamController/Stream
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'basicinfoheightweight.dart';
 import 'homepage.dart';
 import 'otp.dart';
-
-
-
 
 class UserProfile {
 
@@ -49,6 +47,11 @@ class UserProfile {
   final reps = TextEditingController();
   final sets = TextEditingController();
   final time = TextEditingController();
+  final price = TextEditingController();
+  final dimension_unit = TextEditingController();
+  final weight_unit = TextEditingController();
+  final unit_price = TextEditingController();
+  final quantity = TextEditingController();
   final List <String> fitnessGoals = <String> [];
 
 
@@ -74,6 +77,8 @@ class UserProfile {
   String _otpCode = "";
   String _email = "";
   String _storyImage = "";
+  String imageUrl = "";
+  int id = 0;
 
   //Getters implementation
   String get otpCode => _otpCode;
@@ -91,7 +96,7 @@ class UserProfile {
 
   void setAgreedToTOS(bool newValue) {
     //setState(() {
-      agreedToTOS = newValue;
+    agreedToTOS = newValue;
     //});
   }
 
@@ -121,6 +126,11 @@ class UserProfile {
     print(achievableGoal.text);
     print(relevantGoal.text);
     print(timesGoal.text);
+    print(dimension_unit.text);
+    print(weight_unit.text);
+    print(unit_price.text);
+    print(quantity.text);
+    print(price.text);
   }
 
   void addItemToList(){
@@ -150,13 +160,13 @@ class UserProfile {
                 onPressed: () async {
                   //addItemToList();
                   Navigator.of(context).pop();
-                   print(fitnessGoals);
+                  print(fitnessGoals);
                 },
               )
             ],
           );
         });
-   }
+  }
   //Fonction to add user information
   Future  sendDataRegister(BuildContext context) async {
     final response = await http.post( Uri.parse('http://api.burnit.socecepme.com/api/auth/register'), body: {
@@ -168,8 +178,8 @@ class UserProfile {
       "password_confirmation": ConfirmPassword.text,
     });
     //developer.log(response.body);
-   // Scaffold.of(context)
-       // .showSnackBar(SnackBar(content: Text(response.statusCode.toString(),style: TextStyle(color: Colors.redAccent, fontSize: 16, fontWeight: FontWeight.bold,))));
+    // Scaffold.of(context)
+    // .showSnackBar(SnackBar(content: Text(response.statusCode.toString(),style: TextStyle(color: Colors.redAccent, fontSize: 16, fontWeight: FontWeight.bold,))));
 
     apidata = response.body; //get JSON decoded data from response
 
@@ -183,7 +193,7 @@ class UserProfile {
       print(id);
       print(responseJSON['message']);
       Fluttertoast.showToast(
-        msg: responseJSON['message']);
+          msg: responseJSON['message']);
       Navigator.push(context, MaterialPageRoute(
           builder: (context) => BasicInfoHeightWeight(userId: id,))
       );
@@ -204,7 +214,7 @@ class UserProfile {
       print(finalResp);
       Fluttertoast.showToast(msg: finalResp);
     }
-   else {
+    else {
       throw Exception('Failed to load data');
     }
   }
@@ -224,7 +234,7 @@ class UserProfile {
     if(response.statusCode == 200){
       //fetch successful
       Map<String, dynamic> responseJSON = jsonDecode(apidata);
-      int id = jsonDecode( apidata)['user']['id'];
+      id = jsonDecode( apidata)['user']['id'];
       print(id);
       print(responseJSON['message']);
       Fluttertoast.showToast(
@@ -241,6 +251,45 @@ class UserProfile {
     }
     else {
       throw Exception('Failed to load data');
+    }
+  }
+
+  //Fonction to retrieve differents images post from the database
+  Future<List<Map<String, dynamic>>> fetchUsersVideos(BuildContext context) async {
+    final String apiUrl = "http://api.burnit.socecepme.com/api/exercise";
+    final String baseUrl = "http://api.burnit.socecepme.com/public/";
+    var response = await  http.get(Uri.parse(apiUrl));
+    List<String> videoList = [];
+
+    print("Response status User Profile: ${response.statusCode}");
+    print("Response data User Profile: ${response.body}");
+
+    if (response.statusCode == 200) {
+      superheros_length = json.decode(response.body)['data']; //get all the data from json string
+      print(superheros_length.length);
+      for(int  i = 0; i < superheros_length.length; i++) {
+        Map<String, dynamic> map =  json.decode(response.body);
+        List<dynamic> data = map['data'];
+        resp = baseUrl + data[i]['image_url'];
+        print("Video Image User Profile: ${resp}");
+        videoList.add(resp);
+      }
+      //List<String> videoList = [resp];
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setStringList('ImageUrl', videoList);
+      var value = await  prefs.setStringList('ImageUrl', videoList);
+      print("Video Image Set Pref: ${videoList.toString()}");
+      print("Video Image Pres: ${value.toString()}");
+
+      int coach_id =  json.decode(response.body)['data'][0]['coach_id'];
+      print("coach Id: ${coach_id.toString()}");
+      Navigator.push(context, MaterialPageRoute(
+          builder: (context) => UpComingExerciseByCoach(userId:coach_id.toString(),)));
+
+      return List<Map<String, dynamic>>.from(json.decode(response.body)['data']);
+
+    } else {
+      throw Exception('Unable to fetch products from the REST API');
     }
   }
 
@@ -285,7 +334,7 @@ class UserProfile {
     }
     if(response.statusCode == 401 ){
       //fetch error
-        resp = jsonDecode( apidata)['error']['email'];
+      resp = jsonDecode( apidata)['error']['email'];
       print(resp);
       Fluttertoast.showToast(msg: resp);
     }
@@ -322,9 +371,9 @@ class UserProfile {
 
   void onLoginStatusChanged(bool isLoggedIn, {profileData}) {
     //setState(() {
-      this.isLoggedIn = isLoggedIn;
-      this.profileData = profileData;
-   // });
+    this.isLoggedIn = isLoggedIn;
+    this.profileData = profileData;
+    // });
   }
 
   //Fonction to verifier user login credentials with facebook

@@ -2,12 +2,12 @@
 <resources>
     <string name="burnit_app">BurnitApp</string>
     <!-- Replace "000000000000" with your Facebook App ID here. -->
-    <string name="facebook_app_id">4993505940702146</string>
-    <string name="facebook_client_token">4993505940702146</string>
+    <string name="facebook_app_id">544012237248815</string>
+    <string name="facebook_client_token">544012237248815</string>
 
     <!--
       Replace "000000000000" with your Facebook App ID here.
       **NOTE**: The scheme needs to start with `fb` and then your ID.
     -->
-    <string name="fb_login_protocol_scheme">fb4993505940702146</string>
+    <string name="fb_login_protocol_scheme">fb544012237248815</string>
 </resources>

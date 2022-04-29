@@ -158,7 +158,10 @@ class  MyCustomFormState extends State <AddVideo>{
       "reps": _userProfile.reps.text,
       "sets": _userProfile.sets.text,
       "time": _userProfile.time.text,
-      "coach_id": widget.userId.toString(),
+      //"belong_to": User’,’Coach’),
+      "belong_to": "User",
+      "user_id": widget.userId.toString(),
+      "coach_id": 1,
       "file_url": await MultipartFile.fromFile(
         file!.path,
         filename: fileName,
@@ -499,18 +502,15 @@ class  MyCustomFormState extends State <AddVideo>{
                   ),
                 ),
               ),
-              Expanded(
-                child:Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.center,
-                    child: const CheckConnectivity(),
-                  ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 20.0,
+                  width: 350.0,
+                  alignment:Alignment.center,
+                  child: const CheckConnectivity(),
                 ),
               ),
-              //throw UnimplementedError();
             ],
           ),
         ),

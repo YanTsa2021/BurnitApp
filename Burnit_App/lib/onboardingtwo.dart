@@ -6,6 +6,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -30,15 +31,29 @@ class  MyCustomFormState extends State <OnboardingTwo>{
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Scaffold(
+      child: ResponsiveWrapper(
+          maxWidth: 1200,
+          minWidth: 480,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          ],
+        child: SizedBox(
+          width: 1000.0,
+          //height: MediaQuery.of(context).size.height * 1.17,
+          height: 1000.0,
+        child: Scaffold(
           appBar: AppBar(
             title: Row(children: [
               Expanded(
                 child:Align(
                   alignment: Alignment.centerLeft,
                   child:  Container(
-                    width: 35.0,
-                    height: 35.0,
+                    width: 40.0,
+                    height: 40.0,
                     alignment:Alignment.centerLeft,
                     decoration: BoxDecoration(
                       border: Border.all(
@@ -49,8 +64,8 @@ class  MyCustomFormState extends State <OnboardingTwo>{
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Container(
-                        width: 35.0,
-                        height: 35.0,
+                        width: 40.0,
+                        height: 40.0,
                         alignment:Alignment.center,
                         child: GestureDetector(
                           onTap: () {
@@ -68,7 +83,7 @@ class  MyCustomFormState extends State <OnboardingTwo>{
                   alignment: Alignment.center,
                   child:Container(
                     width: 235.0,
-                    height: 35.0,
+                    height: 40.0,
                     alignment:Alignment.center,
                   ),
                 ),
@@ -77,9 +92,9 @@ class  MyCustomFormState extends State <OnboardingTwo>{
                 child:Align(
                   alignment: Alignment.centerRight,
                   child: Container(
-                    width: 45.0,
-                    height: 35.0,
-                    alignment:Alignment.centerRight,
+                      width: 45.0,
+                      height: 40.0,
+                      alignment:Alignment.centerRight,
                       //padding: EdgeInsets.symmetric(horizontal: 10, vertical: 7),
                       child: Text.rich(
                         TextSpan(text: 'Skip', style: const TextStyle(color: Colors.black54, fontSize: 15, decoration: TextDecoration.underline,),
@@ -103,63 +118,67 @@ class  MyCustomFormState extends State <OnboardingTwo>{
           resizeToAvoidBottomInset: false, // set it to false
           extendBodyBehindAppBar: true,
           body: Container(
-              width: double.infinity,
-              height: double.infinity,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.fitWidth,
-                  image: AssetImage('assets/ImgOngV2.png'),
-                ),
+            width: double.infinity,
+            height: double.infinity,
+            decoration: const BoxDecoration(
+              image: DecorationImage(
+                fit: BoxFit.fitWidth,
+                image: AssetImage('assets/ImgOngV2.png'),
               ),
+            ),
             child: ListView(
               shrinkWrap: true,
               children: <Widget>[
                 Container(
-                      margin: const EdgeInsets.all(15),
-                      padding: const EdgeInsets.all(5),
-                    ),
-                    Container(
-                      width: 350,
-                      alignment:Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                      child: RichText(
-                        text: const TextSpan(text: '01 ',
-                          style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold,),
-                          children: [
-                            TextSpan(text: '/03', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                  margin: const EdgeInsets.all(15),
+                  padding: const EdgeInsets.all(5),
+                ),
+                Container(
+                  width: 350,
+                  alignment:Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    child: RichText(
+                      text: const TextSpan(text: '01 ',
+                        style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
+                        children: [
+                          TextSpan(text: '/03', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
-                            )
-                          ],
-                        ),
-                      ),
+                          )
+                        ],
                       ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(5),
-                      padding: const EdgeInsets.all(5),
-                    ),
-                    Container(
-                      width: 350,
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(5),
+                ),
+                Container(
+                  width: 350,
+                  alignment:Alignment.centerLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+                    child: Align (
                       alignment:Alignment.centerLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                       child: RichText(
+                        textAlign: TextAlign.left,
                         text: const TextSpan(text: 'CHALLENGE''\nYOUR''\nBUDDY',
                           style: TextStyle(color: Colors.black, fontSize: 40,fontWeight: FontWeight.bold,),
                           children: [
-                            TextSpan(text: '\nlets make America Fit''\nagain with your''\nfriends', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
-
+                            TextSpan(text: '\nlets make America Fit''\nagain with your''\nfriends',
+                              style: TextStyle(color: Colors.black54, fontSize: 22,fontWeight: FontWeight.bold,),
                             )
                           ],
                         ),
                       ),
-                      ),
                     ),
-                    Container(
-                      margin: const EdgeInsets.all(110),
-                      padding: const EdgeInsets.all(90),
-                    ),//throw UnimplementedError();
+                  ),
+                ),
+                Container(
+                  margin: const EdgeInsets.all(110),
+                  padding: const EdgeInsets.all(140),
+                ),//throw UnimplementedError();
                 Container(
                   height: 60.0,
                   width: 350.0,
@@ -207,10 +226,12 @@ class  MyCustomFormState extends State <OnboardingTwo>{
                   margin: const EdgeInsets.all(5),
                   padding: const EdgeInsets.all(5),
                 ), //throw UnimplementedError();
-                ],
-              ),
-            )
+              ],
+            ),
           ),
+        ),
+         ),
+        ),
       );
    }
 }

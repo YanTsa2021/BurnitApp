@@ -6,8 +6,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:burnit_app/login.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -42,16 +44,31 @@ class MyCustomFormState extends State <ForgotPassWord>{
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child:  Scaffold(
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+           breakpoints: [
+              ResponsiveBreakpoint.resize(480, name: MOBILE),
+              ResponsiveBreakpoint.autoScale(800, name: TABLET),
+              ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+              ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+           ],
+           child:SizedBox(
+           width: 1000.0,
+           //width: MediaQuery.of(context).size.width,
+           height: MediaQuery.of(context).size.height * 1.19,
+           //height: 1000,
+           child: Scaffold(
             appBar: PreferredSize(
               child: Container(
-                margin: const EdgeInsets.only(top:40.0),
+                margin: const EdgeInsets.only(top:50.0),
                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                height: 45.0,
+                height: 50.0,
                 width: 350.0,
                 alignment:Alignment.centerLeft,
                 child: Container(
-                  width: 35.0,
+                  width: 40.0,
                   alignment:Alignment.centerLeft,
                   decoration: BoxDecoration(
                     border: Border.all(
@@ -62,7 +79,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Container(
-                      width: 35.0,
+                      width: 40.0,
                       alignment:Alignment.center,
                       child: GestureDetector(
                         onTap: () {
@@ -78,29 +95,33 @@ class MyCustomFormState extends State <ForgotPassWord>{
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
+                child: OrientationBuilder(
+                builder: (BuildContext context, Orientation orientation) {
+                return ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
                   Container(
-                    width: 100,
-                    height: 100,
+                    width: 200,
+                    height: 200,
                     alignment:Alignment.center,
                     decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/ImgBurnit.png'),)),
                   ),
                   Container(
-                    margin: EdgeInsets.all(2),
-                    padding: EdgeInsets.all(1),
+                    margin: const EdgeInsets.all(2),
+                    padding: const EdgeInsets.all(1),
                   ),
                   Container(
                     width: 350,
                     alignment:Alignment.center,
                     child: RichText(
-                      text: const TextSpan(text: '   Forgot Password',
-                        style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.center,
+                      text: const TextSpan(text: 'Forgot Password',
+                        style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                         children: [
-                          TextSpan(text: '    \nEnter your e-mail or phone number to\n        send a reset password link', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                          TextSpan(text: '\nEnter your e-mail or phone number to\nsend a reset password link', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                           )
                         ],
@@ -121,7 +142,7 @@ class MyCustomFormState extends State <ForgotPassWord>{
                         autocorrect: true,
                         decoration: const InputDecoration(
                           prefixIcon: Icon(Icons.email),
-                          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: OutlineInputBorder(),
                           hintText: 'E-mail/phone number',
                           labelText: 'E-mail/phone number',
@@ -140,14 +161,14 @@ class MyCustomFormState extends State <ForgotPassWord>{
                     padding: const EdgeInsets.all(90),
                   ),
                   Container(
-                    height: 44.0,
-                    width: 350.0,
+                    height: 50.0,
+                    width: 450.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
+                      height: 50.0,
+                      width: 450.0,// specific value
                       child: RaisedButton(
                         elevation: 0,
                         textColor: Colors.white,
@@ -193,22 +214,23 @@ class MyCustomFormState extends State <ForgotPassWord>{
                       ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
                   ),
-                  //throw UnimplementedError();
-                ],
-               ),
-             ),
-          ),
-         );
+                  ],
+                );
+                }
+                ),
+            ),
+           ),
+           ),
+        ),
+      );
     }
 }

@@ -13,9 +13,11 @@ import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path/path.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'basicinforesidentinfo.dart';
 import 'dart:io';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -99,7 +101,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
     var stream = http.ByteStream(imageFile.openRead());
     stream.cast();
     var length = await imageFile.length();
-    var uri = Uri.parse('http://api.burnit.socecepme.com/api/user-information/step4/'+widget.userId.toString());
+    var uri = Uri.parse('http://api.burnit.socecepme.com/api/user-information/step4');
 
     var request = http.MultipartRequest("POST", uri);
     var multipartFile = http.MultipartFile('profile', stream, length,
@@ -144,6 +146,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
 
   //Fonction to upload image
   uploadFileFromDio(File file, BuildContext context) async {
+    print(widget.userId.toString());
     String fileName = file.path.split('/').last;
 
     FormData data = FormData.fromMap({
@@ -151,12 +154,13 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
         file.path,
         filename: fileName,
       ),
+      "user_id":  widget.userId.toString(),
     });
 
     Dio dio = Dio();
 
     try{
-      var response = await dio.post('http://api.burnit.socecepme.com/api/user-information/step4/'+widget.userId.toString(),
+      var response = await dio.post('http://api.burnit.socecepme.com/api/user-information/step4',
         data: data,
         options: Options(
             method: 'POST',
@@ -201,6 +205,21 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+        breakpoints: [
+           ResponsiveBreakpoint.resize(480, name: MOBILE),
+           ResponsiveBreakpoint.autoScale(800, name: TABLET),
+           ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+           ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+        ],
+        child:SizedBox(
+        width: 1000.0,
+        //width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 1.19,
+        //height: 1000,
         child: Scaffold(
             appBar: AppBar(
               title: Row(children: [
@@ -208,8 +227,8 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                   child:Align(
                     alignment: Alignment.centerLeft,
                     child:  Container(
-                      width: 35.0,
-                      height: 35.0,
+                      width: 40.0,
+                      height: 40.0,
                       alignment:Alignment.centerLeft,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -220,8 +239,8 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
-                          height: 35.0,
+                          width: 40.0,
+                          height: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -239,7 +258,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     alignment: Alignment.center,
                     child:Container(
                       width: 230.0,
-                      height: 35.0,
+                      height: 40.0,
                       alignment:Alignment.center,
                       child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
                         fontWeight: FontWeight.bold,),),
@@ -251,7 +270,7 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     alignment: Alignment.centerRight,
                     child: Container(
                       width: 45.0,
-                      height: 35.0,
+                      height: 40.0,
                       alignment:Alignment.centerRight,
                         child: Text.rich(
                           TextSpan(text: 'Skip', style: const TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
@@ -274,10 +293,13 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
+               child: OrientationBuilder(
+               builder: (BuildContext context, Orientation orientation) {
+               return ListView(
+                 shrinkWrap: true,
+                 scrollDirection: Axis.vertical,
+                 children: <Widget>[
+                 Container(
                     margin: const EdgeInsets.all(3),
                     padding: const EdgeInsets.all(0),
                   ),
@@ -308,10 +330,11 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
                     child: RichText(
-                      text: const TextSpan(text: ' Profile Picture',
-                        style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.left,
+                      text: const TextSpan(text: 'Profile Picture',
+                        style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                         children: [
-                          TextSpan(text: '\n  Lorem ipsum dolar sit amet.', style: const TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                          TextSpan(text: '\nLorem ipsum dolar sit amet.', style: const TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                           )
                         ],
@@ -360,17 +383,17 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                   ),
                   Container(
                     margin: const EdgeInsets.all(90),
-                    padding: const EdgeInsets.all(80),
+                    padding: const EdgeInsets.all(90),
                   ),
                   Container(
-                    height: 44.0,
-                    width: 350.0,
+                    height: 50.0,
+                    width: 450.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
+                      height: 50.0,
+                      width: 450.0,// specific value
                       child: RaisedButton(
                         elevation: 0,
                         textColor: Colors.white,
@@ -397,22 +420,23 @@ class  MyCustomFormState extends State <BasicInfoProfilePicture>{
                     ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
-                  ),//
-                  //throw UnimplementedError();
-                ],
-              ),
-            )
-        )
+                  ),
+                 ],
+               );
+               }
+               ),
+            ),
+        ),
+        ),
+        ),
     );
   }
 }

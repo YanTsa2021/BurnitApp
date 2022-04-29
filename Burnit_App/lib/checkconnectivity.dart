@@ -16,19 +16,20 @@ class CheckConnectivity extends StatelessWidget {
         initialData: NetworkStatus.Offline,
         //initialData: NetworkStatus.Online,
         child: NetworkAwareWidget(
-          onlineChild: Container(
-            //height: 20.0,
+         onlineChild: Container(
             width: 350.0,
             alignment:Alignment.center,
             child: Center(
-              //child: Text(
-                //"You are online",
-                //style: TextStyle(fontSize: 15.0, fontWeight: FontWeight.w600),
-             // ),
+              /*child: Text(
+                "You are online",
+                style: TextStyle(
+                    color: Colors.grey[400],
+                    fontWeight: FontWeight.w600,
+                    fontSize: 15.0),
+              ),*/
             ),
           ),
           offlineChild: Container(
-            //height: 20.0,
             width: 350.0,
             alignment:Alignment.center,
             child: Center(

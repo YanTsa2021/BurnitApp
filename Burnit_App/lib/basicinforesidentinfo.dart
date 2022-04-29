@@ -8,10 +8,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:http/http.dart' as http;
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 import 'basicinfofitnessgoal.dart';
 import 'basicinfoprofilepicture.dart';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -35,6 +37,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
   // we get the instance of the userprofile class just as we would create a new instance.
   final UserProfile _userProfile = UserProfile();
   final _formKey = GlobalKey<FormState>();
+  final int iconCode = 60996;
   // Create a global key that uniquely identifies the Form widget
   // and allows validation of the form.
 
@@ -46,7 +49,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
   //Fonction to add users basic resident information
   void sendDataUserResidentInfo() async {
     print(widget.userId.toString());
-    final response = await http.put(Uri.parse('http://api.burnit.socecepme.com/api/user-information/step3/'+widget.userId.toString()), body: {
+    final response = await http.put(Uri.parse('http://api.burnit.socecepme.com/api/user-information/step3'), body: {
       "user_id":  widget.userId.toString(),
       "country": _userProfile.country.text,
       "zipcode": _userProfile.zipcode.text,
@@ -84,15 +87,30 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
-        child: Scaffold(
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+         ],
+         child:SizedBox(
+         width: 1000.0,
+         //width: MediaQuery.of(context).size.width,
+         height: MediaQuery.of(context).size.height * 1.19,
+         //height: 1000,
+         child: Scaffold(
             appBar: AppBar(
               title: Row(children: [
                 Expanded(
                   child:Align(
                     alignment: Alignment.centerLeft,
                     child:  Container(
-                      width: 35.0,
-                      height: 35.0,
+                      width: 40.0,
+                      height: 40.0,
                       alignment:Alignment.centerLeft,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -103,8 +121,8 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
-                          height: 35.0,
+                          width: 40.0,
+                          height: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -122,7 +140,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     alignment: Alignment.center,
                     child:Container(
                       width: 260.0,
-                      height: 35.0,
+                      height: 40.0,
                       alignment:Alignment.center,
                       child: const Text('Basic Information',style: TextStyle(color: Colors.black, fontSize: 20,
                         fontWeight: FontWeight.bold,),),
@@ -134,7 +152,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     alignment: Alignment.centerRight,
                     child: Container(
                       width: 5.0,
-                      height: 35.0,
+                      height: 40.0,
                       alignment:Alignment.centerRight,
                     ),
                   ),
@@ -148,10 +166,13 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
+               child: OrientationBuilder(
+               builder: (BuildContext context, Orientation orientation) {
+               return ListView(
+                 shrinkWrap: true,
+                 scrollDirection: Axis.vertical,
+                 children: <Widget>[
+                 Container(
                     margin: const EdgeInsets.all(4),
                     padding: const EdgeInsets.all(4),
                   ),
@@ -182,10 +203,11 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 26, vertical: 0),
                     child: RichText(
-                      text: const TextSpan(text: ' Where do you live?',
-                        style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
+                      textAlign: TextAlign.left,
+                      text: const TextSpan(text: 'Where do you live?',
+                        style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                         children: [
-                          TextSpan(text: '\n  Lorem ipsum dolar sit amet.', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
+                          TextSpan(text: '\nLorem ipsum dolar sit amet.', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                           )
                         ],
@@ -215,7 +237,7 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                               fit: BoxFit.fill,
                             ),
                           ),
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          //contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: const OutlineInputBorder(),
                           hintText: 'Country',
                           labelText: 'Country',
@@ -239,8 +261,17 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                         controller: _userProfile.zipcode,
                         autocorrect: true,
                         decoration: InputDecoration(
-                          prefixIcon: Icon(IconData(_userProfile.iconCode, fontFamily: 'MaterialIcons')),// Will display "Up arrow" icon from the list
-                          contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: Image.asset(
+                              'assets/zipcode.png',
+                              width: 20,
+                              height: 20,
+                              fit: BoxFit.fill,
+                            ),
+                          ),
+                          //prefixIcon: Icon( const IconData(iconCode, fontFamily: 'MaterialIcons')),// Will display "Up arrow" icon from the list
+                          //contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           border: const OutlineInputBorder(),
                           hintText: 'Zip code',
                           labelText: 'Zip code',
@@ -255,18 +286,18 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.all(100),
-                    padding: const EdgeInsets.all(90),
+                    margin: const EdgeInsets.all(110),
+                    padding: const EdgeInsets.all(110),
                   ),
                   Container(
-                    height: 44.0,
-                    width: 350.0,
+                    height: 50.0,
+                    width: 450.0,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                     child: SizedBox(
-                      height: 44.0,
-                      width: 350.0,// specific value
+                      height: 50.0,
+                      width: 450.0,// specific value
                       child: RaisedButton(
                         elevation: 0,
                         textColor: Colors.white,
@@ -291,22 +322,23 @@ class  MyCustomFormState extends State < BasicInfoResidentInfo>{
                     ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
-                  ),//
-                  //throw UnimplementedError();
-                ],
-              ),
-            )
-        )
+                  ),
+                 ],
+               );
+               }
+               ),
+            ),
+         ),
+         ),
+        ),
     );
   }
 }

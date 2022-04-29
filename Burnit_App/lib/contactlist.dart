@@ -6,7 +6,9 @@ import 'package:burnit_app/usercontactlist.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 import 'stories.dart';
 
 void main() {
@@ -39,6 +41,21 @@ class  MyCustomFormState extends State <ContactList>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+        breakpoints: [
+          ResponsiveBreakpoint.resize(480, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+          ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+       ],
+        child:SizedBox(
+        width: 1000.0,
+        //width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height * 1.19,
+         //height: 1000,
         child: Scaffold(
             appBar: AppBar(
               title: Row(children: [
@@ -46,8 +63,8 @@ class  MyCustomFormState extends State <ContactList>{
                   child:Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      width: 35.0,
-                      height: 35.0,
+                      width: 40.0,
+                      height: 40.0,
                       alignment:Alignment.centerLeft,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -58,8 +75,8 @@ class  MyCustomFormState extends State <ContactList>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
-                          height: 35.0,
+                          width: 40.0,
+                          height: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -87,8 +104,8 @@ class  MyCustomFormState extends State <ContactList>{
                   child:Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      width: 35.0,
-                      height: 35.0,
+                      width: 40.0,
+                      height: 40.0,
                       alignment:Alignment.centerRight,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -99,8 +116,8 @@ class  MyCustomFormState extends State <ContactList>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
-                          height: 35.0,
+                          width: 40.0,
+                          height: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -122,11 +139,13 @@ class  MyCustomFormState extends State <ContactList>{
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                children: <Widget>[
-                  Container(
+               child: OrientationBuilder(
+               builder: (BuildContext context, Orientation orientation) {
+               return ListView(
+                 shrinkWrap: true,
+                 scrollDirection: Axis.vertical,
+                 children: <Widget>[
+                 Container(
                     height: 750.0,
                     //height: double.infinity,
                     width: 350.0,
@@ -136,21 +155,23 @@ class  MyCustomFormState extends State <ContactList>{
                       child: UserContactList(),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
                   ),
-                ],
-              ),
-            )
-        )
+                 ],
+               );
+               }
+               ),
+             ),
+            ),
+          ),
+        ),
     );
   }
 }

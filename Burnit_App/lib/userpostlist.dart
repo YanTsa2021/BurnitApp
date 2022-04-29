@@ -107,13 +107,13 @@ class UserPostList extends StatelessWidget{
                             trailing: Text(_dot(snapshot.data[index]), style: const TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,)),
                           ),
                           Container (
-                            width: 350,
+                            width: 430,
                             height: 200,
                             alignment:Alignment.center,
                               child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                                 child: Container(
-                                  width: 350,
+                                  width: 430,
                                   height: 200,
                                   alignment:Alignment.center,
                                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),

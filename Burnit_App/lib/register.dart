@@ -6,7 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 import 'logo.dart';
 import 'userprofile.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -46,47 +48,64 @@ class MyCustomFormState extends State<Register> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      child: Scaffold(
-        appBar: PreferredSize(
-            child: Container(
-              margin: const EdgeInsets.only(top:40.0),
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-              height: 45.0,
-              width: 350.0,
-              alignment:Alignment.centerLeft,
-                      child: Container(
-                        width: 35.0,
-                        alignment:Alignment.centerLeft,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Colors.grey,
-                            width: 1,
-                          ),
-                          color: Colors.white60,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Container(
-                            width: 35.0,
-                            alignment:Alignment.center,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.push(context, MaterialPageRoute(
-                                    builder: (context) => LogoPage()));
-                              },
-                              child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
-                            )
-                        ),
-                      ),
+        child: ResponsiveWrapper(
+           maxWidth: 1200,
+           minWidth: 480,
+           defaultScale: true,
+           breakpoints: [
+             ResponsiveBreakpoint.resize(480, name: MOBILE),
+             ResponsiveBreakpoint.autoScale(800, name: TABLET),
+             ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+             ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          ],
+          child:SizedBox(
+            width: 1000.0,
+            height: MediaQuery.of(context).size.height * 1.17,
+            child: Scaffold(
+            appBar: PreferredSize(
+               child: Container(
+                 margin: const EdgeInsets.only(top:50.0),
+                 padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                 height: 50.0,
+                 width: 350.0,
+                 alignment:Alignment.centerLeft,
+                 child: Container(
+                   width: 40.0,
+                   alignment:Alignment.centerLeft,
+                   decoration: BoxDecoration(
+                     border: Border.all(
+                       color: Colors.grey,
+                       width: 1,
+                     ),
+                   color: Colors.white60,
+                   borderRadius: BorderRadius.circular(8),
+                  ),
+                   child: Container(
+                     width: 40.0,
+                     alignment:Alignment.center,
+                     child: GestureDetector(
+                       onTap: () {
+                         Navigator.push(context, MaterialPageRoute(
+                         builder: (context) => LogoPage()));
+                       },
+                       child: const Icon(Icons.arrow_back_ios_new_sharp,size: 18, color: Colors.black,),
+                    )
+                  ),
                 ),
-        preferredSize: const Size.fromHeight(500.0),
-      ), // set it to false
-        body: Center(
-          child: ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Container(
-                width: 100,
-                height: 100,
+              ),
+               preferredSize: const Size.fromHeight(500.0),
+    ),
+    resizeToAvoidBottomInset: false, // set it to false
+    body: Center(
+          child: OrientationBuilder(
+             builder: (BuildContext context, Orientation orientation) {
+             return ListView(
+               shrinkWrap: true,
+               scrollDirection: Axis.vertical,
+               children: <Widget>[
+               Container(
+                width: 200,
+                height: 200,
                 alignment:Alignment.center,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
@@ -101,10 +120,11 @@ class MyCustomFormState extends State<Register> {
                 width: 350,
                 alignment:Alignment.center,
                 child: RichText(
-                  text: const TextSpan(text: '           Register',
-                    style: TextStyle(color: Colors.black, fontSize: 28,fontWeight: FontWeight.bold,),
+                  textAlign: TextAlign.center,
+                  text: const TextSpan(text: 'Register',
+                    style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
                     children: [
-                      TextSpan(text: '\n       Please Register to create\n                  New Account', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                      TextSpan(text: '\nPlease Register to create\nNew Account', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                       )
                     ],
@@ -124,7 +144,7 @@ class MyCustomFormState extends State<Register> {
                     controller: _userProfile.name,
                     autocorrect: true,
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: Icon(Icons.person),
                       border: OutlineInputBorder(),
                       labelText: 'Full Name',
@@ -148,7 +168,7 @@ class MyCustomFormState extends State<Register> {
                     controller: _userProfile.email,
                     autocorrect: true,
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: Icon(Icons.email),
                       border: OutlineInputBorder(),
                       hintText: 'E-mail',
@@ -172,7 +192,7 @@ class MyCustomFormState extends State<Register> {
                     controller: _userProfile.phone,
                     autocorrect: true,
                     decoration: const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: Icon(Icons.phone),
                       border: OutlineInputBorder(),
                       hintText: 'Enter a phone number',
@@ -197,7 +217,7 @@ class MyCustomFormState extends State<Register> {
                     autocorrect: false,
                     readOnly: true,
                     decoration:  const InputDecoration(
-                      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      //contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: Icon(Icons.calendar_today),
                       border: OutlineInputBorder(),
                       hintText: 'Enter your date of birth',
@@ -235,7 +255,7 @@ class MyCustomFormState extends State<Register> {
                     obscureText: _userProfile.showPassword,
                     autocorrect: true,
                     decoration:  InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+                      //contentPadding: const EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                       prefixIcon: const Icon(Icons.password),
                       //suffixIcon: Icon(Icons.remove_red_eye),
                       border: const OutlineInputBorder(),
@@ -266,7 +286,7 @@ class MyCustomFormState extends State<Register> {
                     obscureText: _userProfile.showConfirmPassword,
                     autocorrect: true,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
+                      //contentPadding: const EdgeInsets.fromLTRB(10.0, 2.0, 10.0, 2.0),
                       prefixIcon: const Icon(Icons.password),
                       //suffixIcon: Icon(Icons.remove_red_eye),
                       border: const OutlineInputBorder(),
@@ -335,14 +355,14 @@ class MyCustomFormState extends State<Register> {
                 ),
               ),
               Container(
-                height: 44.0,
-                width: 350.0,
+                height: 50.0,
+                width: 450.0,
                 alignment:Alignment.center,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                 child: SizedBox(
-                  height: 44.0,
-                  width: 350.0,// specific value
+                  height: 50.0,
+                  width: 450.0,// specific value
                   child: RaisedButton(
                     elevation: 0,
                     textColor: Colors.white,
@@ -389,21 +409,24 @@ class MyCustomFormState extends State<Register> {
                   ),
                 ),
               ),
-              Expanded(
-                child:Align(
-                  alignment: Alignment.center,
-                  child: Container(
-                    height: 20.0,
-                    width: 350.0,
-                    alignment:Alignment.center,
-                    child: const CheckConnectivity(),
-                  ),
+              Align(
+                alignment: Alignment.center,
+                child: Container(
+                  height: 20.0,
+                  width: 350.0,
+                  alignment:Alignment.center,
+                  //child: const CheckConnectivity(),
+                  child:  DataConnectivity(),
                 ),
               ),
-            ],
+               ],
+             );
+             }
+             ),
+             ),
+            ),
           ),
-        )
-      ),
+        ),
     );
   }
 }

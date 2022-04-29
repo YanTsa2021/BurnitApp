@@ -61,7 +61,7 @@
                   Replace "000000000000" with your Facebook App ID here.
                   **NOTE**: The scheme needs to start with `fb` and then your ID.
                 -->
-                <string>fb253936976704642</string>
+                <string>fb544012237248815</string>
             </array>
         </dict>
     </array>
@@ -69,7 +69,7 @@
     <key>FacebookAppID</key>
 
     <!-- Replace "000000000000" with your Facebook App ID here. -->
-    <string>253936976704642</string>
+    <string>544012237248815</string>
     <key>burnit_app</key>
 
     <!-- Replace "YOUR_APP_NAME" with your Facebook App name. -->

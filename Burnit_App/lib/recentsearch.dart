@@ -291,7 +291,7 @@ class  MyCustomFormState extends State < MyCustomForm>{
                       onPressed: ()
                       {
                         Navigator.push(context, MaterialPageRoute(
-                            builder: (context) => Settings()));
+                            builder: (context) => Settings(userId: '',)));
                       }
                   ),
                 ),

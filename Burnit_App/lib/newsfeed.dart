@@ -7,6 +7,7 @@ import 'package:burnit_app/basicinfoprofilepicture.dart';
 import 'package:burnit_app/myprofile.dart';
 import 'package:burnit_app/playvideo.dart';
 import 'package:burnit_app/posts.dart';
+import 'package:burnit_app/settings.dart';
 import 'package:burnit_app/userprofile.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/gestures.dart';
@@ -17,9 +18,11 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 import 'package:video_player/video_player.dart';
 import 'chat.dart';
 import 'checkconnectivity.dart';
+import 'dataconnectivity.dart';
 import 'homepage.dart';
 import 'stories.dart';
 
@@ -55,6 +58,7 @@ class  MyCustomFormState extends State <NewsFeed>{
   final ImagePicker imagePicker = ImagePicker();
   List<XFile>? imageFileList = [];
   File? _image;
+  var superheros_length;
 
   void selectImagesVideos() async {
     final List<XFile>? selectedImages = await
@@ -76,6 +80,7 @@ class  MyCustomFormState extends State <NewsFeed>{
     print("Response data: ${response.body}");
 
     if (response.statusCode == 200) {
+      superheros_length = json.decode(response.body)['data']; //get all the data from json string
       return json.decode(response.body)['data'];
 
     } else {
@@ -91,10 +96,10 @@ class  MyCustomFormState extends State <NewsFeed>{
 
   String _storyImage(Map<dynamic, dynamic> story){
     String image = '';
-    for (int i =0; i < story.length; i++){
-    //for (int i =0; i < 4; i++){
-      image = story['image'][0]['story_image_url'];
+    for (int i =0; i < superheros_length.length; i++){
+      image = story['image'][i]['story_image_url'];
       print("Story Length: ${story.length}");
+      print("List Length: ${superheros_length.length}");
       print("Image**********************");
       print("Image: ${image}");
     }
@@ -108,23 +113,23 @@ class  MyCustomFormState extends State <NewsFeed>{
         builder: (context) {
           return AlertDialog(
             content: Container(
-                width: 350,
-                height: 200,
-                alignment:Alignment.center,
-                child: GestureDetector(
-                  onTap: () {
-                    selectImagesVideos();
-                  },
-                  child: CircleAvatar(
-                    radius: 150,
-                    backgroundColor: const Color(0xffe4e14),
-                    child: imageFileList != null
+              width: 350,
+              height: 200,
+              alignment:Alignment.center,
+              child: GestureDetector(
+                onTap: () {
+                  selectImagesVideos();
+                },
+                child: CircleAvatar(
+                  radius: 150,
+                  backgroundColor: const Color(0xffe4e14),
+                  child: imageFileList != null
                       ? ClipRRect(
-                        borderRadius: BorderRadius.circular(250),
-                        child: SizedBox(
-                        height: 80,
-                        width: MediaQuery.of(context).size.width * 0.9,
-                        child: GridView.builder(
+                    borderRadius: BorderRadius.circular(250),
+                    child: SizedBox(
+                      height: 80,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: GridView.builder(
                           shrinkWrap: true,
                           itemCount: imageFileList!.length,
                           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -132,40 +137,40 @@ class  MyCustomFormState extends State <NewsFeed>{
                           ),
                           itemBuilder: (BuildContext context, int index) {
                             return Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Stack(children: [
-                                  ClipRRect(
-                                    borderRadius: BorderRadius.circular(10.0),
-                                    child: Image.file(
-                                      File((imageFileList![index].path)),
-                                      width: MediaQuery.of(context).size.width * 0.35,
-                                      height: MediaQuery.of(context).size.height * 0.17,
-                                      fit: BoxFit.cover,
-                                    ),
+                              padding: const EdgeInsets.all(8.0),
+                              child: Stack(children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  child: Image.file(
+                                    File((imageFileList![index].path)),
+                                    width: MediaQuery.of(context).size.width * 0.35,
+                                    height: MediaQuery.of(context).size.height * 0.17,
+                                    fit: BoxFit.cover,
                                   ),
-                                  Align(
-                                      alignment: Alignment.center,
-                                      child: buildCancelIcon(Colors.white, () {
-                                        setState(() {
-                                           imageFileList!.removeAt(index);
-                                        });
-                                      }, Icons.cancel))
-                                ]),);
+                                ),
+                                Align(
+                                    alignment: Alignment.center,
+                                    child: buildCancelIcon(Colors.white, () {
+                                      setState(() {
+                                        imageFileList!.removeAt(index);
+                                      });
+                                    }, Icons.cancel))
+                              ]),);
                           }),),
-                       )
-                        : Container(
-                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(150)),
-                          width: 150,
-                          height: 150,
-                          child: Icon(
-                            Icons.camera_alt,
-                            color: Colors.grey[800],
-                          ),
+                  )
+                      : Container(
+                    decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(150)),
+                    width: 150,
+                    height: 150,
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey[800],
                     ),
                   ),
                 ),
+              ),
             ),
             actions: <Widget>[
               FlatButton(
@@ -192,8 +197,8 @@ class  MyCustomFormState extends State <NewsFeed>{
     }
 
     FormData data = FormData.fromMap({
-       "image_url[]": files,
-       "user_id": widget.userId.toString(),
+      "image_url[]": files,
+      "user_id": widget.userId.toString(),
     });
 
     Dio dio = Dio();
@@ -292,60 +297,60 @@ class  MyCustomFormState extends State <NewsFeed>{
                   if(snapshot.hasData && snapshot.data.length >= 1){
                     print((snapshot.data[0]));
                     return SizedBox(
-                        height: 80,
-                        width: 80,
-                        child: ListView.builder(
+                      height: 80,
+                      width: 80,
+                      child: ListView.builder(
                         //padding: const EdgeInsets.all(10),
-                        shrinkWrap: true,
-                        padding: const EdgeInsets.only(right: 0),
-                        itemCount: snapshot.data.length,
-                            //itemCount: snapshot.data[0].length,
-                            //cnicCheck : snapshot.data[1],
-                        itemBuilder: (BuildContext context, int index){
-                          return
-                            Column(
-                              children: <Widget>[
-                                SizedBox(
-                                  width: 50,
-                                  height: 50,
-                                  child: Stack(
-                                    children: <Widget>[
-                                      Container(
-                                        decoration: BoxDecoration(
-                                            shape: BoxShape.circle,
-                                            border: Border.all(
-                                                color: Colors.purple, width: 3)),
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(3.0),
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      _storyImage(snapshot.data[index])),
-                                                    fit: BoxFit.cover)),
+                          shrinkWrap: true,
+                          padding: const EdgeInsets.only(right: 0),
+                          itemCount: snapshot.data.length,
+                          //itemCount: snapshot.data[0].length,
+                          //cnicCheck : snapshot.data[1],
+                          itemBuilder: (BuildContext context, int index){
+                            return
+                              Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                    width: 50,
+                                    height: 50,
+                                    child: Stack(
+                                      children: <Widget>[
+                                        Container(
+                                          decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              border: Border.all(
+                                                  color: Colors.purple, width: 3)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(3.0),
+                                            child: Container(
+                                              width: 50,
+                                              height: 50,
+                                              decoration: BoxDecoration(
+                                                  shape: BoxShape.circle,
+                                                  image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          _storyImage(snapshot.data[index])),
+                                                      fit: BoxFit.cover)),
+                                            ),
                                           ),
-                                        ),
-                                      )
-                                    ],
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 9,
-                                ),
-                                SizedBox(
-                                  width: 75,
-                                  child: Align(
-                                      child: Text(
-                                        _name(snapshot.data[index]),
-                                        overflow: TextOverflow.ellipsis,
-                                      )),
-                                )
-                              ],
-                            );
-                        }),);
+                                  const SizedBox(
+                                    height: 9,
+                                  ),
+                                  SizedBox(
+                                    width: 75,
+                                    child: Align(
+                                        child: Text(
+                                          _name(snapshot.data[index]),
+                                          overflow: TextOverflow.ellipsis,
+                                        )),
+                                  )
+                                ],
+                              );
+                          }),);
                   }else {
                     return const Center(child: CircularProgressIndicator());
                   }
@@ -361,14 +366,29 @@ class  MyCustomFormState extends State <NewsFeed>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
-        child: Scaffold(
+        child: ResponsiveWrapper(
+        maxWidth: 1200,
+        minWidth: 680,
+        defaultScale: true,
+           breakpoints: [
+             ResponsiveBreakpoint.resize(480, name: MOBILE),
+             ResponsiveBreakpoint.autoScale(800, name: TABLET),
+             ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+             ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          ],
+          child:SizedBox(
+          width: 1000.0,
+          //width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height * 1.19,
+          //height: 1000,
+          child: Scaffold(
             appBar: AppBar(
               title: Row(children: [
                 Expanded(
                   child:Align(
                     alignment: Alignment.centerLeft,
                     child: Container(
-                      width: 35.0,
+                      width: 40.0,
                       alignment:Alignment.centerLeft,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -379,7 +399,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
+                          width: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -407,7 +427,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                   child:Align(
                     alignment: Alignment.centerRight,
                     child: Container(
-                      width: 35.0,
+                      width: 40.0,
                       alignment:Alignment.centerRight,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -418,7 +438,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Container(
-                          width: 35.0,
+                          width: 40.0,
                           alignment:Alignment.center,
                           child: GestureDetector(
                             onTap: () {
@@ -440,9 +460,12 @@ class  MyCustomFormState extends State <NewsFeed>{
             ),
             resizeToAvoidBottomInset: false, // set it to false
             body: Center(
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
+                child: OrientationBuilder(
+                builder: (BuildContext context, Orientation orientation) {
+                return ListView(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical,
+                  children: <Widget>[
                   Container(
                     margin: const EdgeInsets.all(1),
                     padding: const EdgeInsets.all(1),
@@ -453,17 +476,17 @@ class  MyCustomFormState extends State <NewsFeed>{
                     alignment:Alignment.centerLeft,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      shrinkWrap: true,
-                      children: [
-                        Row(
-                          children: <Widget>[
-                            stories(context),
-                          ],
-                        ),
-                      ],
-                    ),
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        shrinkWrap: true,
+                        children: [
+                          Row(
+                            children: <Widget>[
+                              stories(context),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -476,42 +499,42 @@ class  MyCustomFormState extends State <NewsFeed>{
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                    child: Row(
-                      children: <Widget>[
-                         Flexible(
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
                             child:Align(
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 width: 200.0,
                                 alignment:Alignment.centerLeft,
                                 child: const Text('Live',style: TextStyle(color: Colors.black, fontSize: 20,
-                                 fontWeight: FontWeight.bold,),),
+                                  fontWeight: FontWeight.bold,),),
                               ),
                             ),
-                         ),
-                        const SizedBox(
-                          width: 50.0,
-                        ),
-                        Flexible(
-                           child:Align(
-                             alignment: Alignment.centerRight,
-                             child: Container(
-                               width: 100.0,
-                               alignment:Alignment.centerRight,
-                               child: Text.rich(
-                                 TextSpan(text: 'See all', style: const TextStyle(color: Colors.red, fontSize: 16,fontWeight: FontWeight.bold,decoration: TextDecoration.underline,),
-                                    recognizer: TapGestureRecognizer()..onTap = (){
-                                      //receiveNewFeedsData();
-                                      Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => const PlayVideo()));
-                                    }
-                                 ),
-                               ),
-                             ),
-                           ),
-                        ),
-                      ],
-                    ),
+                          ),
+                          const SizedBox(
+                            width: 50.0,
+                          ),
+                          Flexible(
+                            child:Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                width: 100.0,
+                                alignment:Alignment.centerRight,
+                                child: Text.rich(
+                                  TextSpan(text: 'See all', style: const TextStyle(color: Colors.red, fontSize: 16,fontWeight: FontWeight.bold,decoration: TextDecoration.underline,),
+                                      recognizer: TapGestureRecognizer()..onTap = (){
+                                        //receiveNewFeedsData();
+                                        //Navigator.push(context, MaterialPageRoute(
+                                        //builder: (context) => const PlayVideo()));
+                                      }
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -520,50 +543,50 @@ class  MyCustomFormState extends State <NewsFeed>{
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child:Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              width: 300,
-                              height: 70,
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child:Align(
                               alignment: Alignment.centerLeft,
-                              child: ListView(
-                                scrollDirection: Axis.vertical,
-                                shrinkWrap: true,
-                                children: [
-                                  Row(
-                                    children: <Widget>[
-                                      _story.liveUsers(context),
-                                    ],
-                                  ),
-                                ],
+                              child: Container(
+                                width: 300,
+                                height: 70,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  children: [
+                                    Row(
+                                      children: <Widget>[
+                                        _story.liveUsers(context),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        Flexible(
-                           child:Align(
-                             alignment: Alignment.centerRight,
-                             child: Container(
-                               width: 40.0,
-                               height: 70,
-                               alignment:Alignment.centerRight,
-                               child: Text.rich(
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Flexible(
+                            child:Align(
+                              alignment: Alignment.centerRight,
+                              child: Container(
+                                width: 40.0,
+                                height: 70,
+                                alignment:Alignment.centerRight,
+                                child: Text.rich(
                                   TextSpan(text: ':', style: const TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
-                                     recognizer: TapGestureRecognizer()..onTap = (){
-                                    }
+                                      recognizer: TapGestureRecognizer()..onTap = (){
+                                      }
                                   ),
-                               ),
-                             ),
-                           ),
-                        ),
-                      ],
-                    ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -595,43 +618,43 @@ class  MyCustomFormState extends State <NewsFeed>{
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                    child: Row(
-                      children: <Widget>[
-                         Flexible(
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
                             child:Align(
-                            alignment: Alignment.centerLeft,
+                              alignment: Alignment.centerLeft,
                               child: Container(
-                                 width: 200.0,
-                                 alignment:Alignment.centerLeft,
-                                 child: const Text('Post',style: TextStyle(color: Colors.black, fontSize: 20,
-                                 fontWeight: FontWeight.bold,),),
+                                width: 200.0,
+                                alignment:Alignment.centerLeft,
+                                child: const Text('Post',style: TextStyle(color: Colors.black, fontSize: 20,
+                                  fontWeight: FontWeight.bold,),),
                               ),
                             ),
-                         ),
-                        const SizedBox(
-                          width: 50.0,
-                        ),
-                        Flexible(
-                           child:Align(
+                          ),
+                          const SizedBox(
+                            width: 50.0,
+                          ),
+                          Flexible(
+                            child:Align(
                               alignment: Alignment.centerRight,
                               child: Container(
                                 width: 100.0,
                                 alignment:Alignment.centerRight,
                                 child: Text.rich(
                                   TextSpan(text: 'See all', style: const TextStyle(color: Colors.red, fontSize: 16,fontWeight: FontWeight.bold,decoration: TextDecoration.underline,),
-                                     recognizer: TapGestureRecognizer()..onTap = (){
+                                      recognizer: TapGestureRecognizer()..onTap = (){
                                         Navigator.push(context, MaterialPageRoute(
-                                          builder: (context) => Posts(userId:widget.userId.toString(),))
-                                      );
-                                       print('User Id )${widget.userId.toString()}  Success');
-                                     }
+                                            builder: (context) => Posts(userId:widget.userId.toString(),))
+                                        );
+                                        print('User Id )${widget.userId.toString()}  Success');
+                                      }
                                   ),
                                 ),
                               ),
                             ),
-                        ),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -640,50 +663,50 @@ class  MyCustomFormState extends State <NewsFeed>{
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                    child: Row(
-                      children: <Widget>[
-                        Flexible(
-                          child:Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                               width: 300,
-                               height: 70,
-                               alignment: Alignment.centerLeft,
-                               child: ListView(
-                                 scrollDirection: Axis.vertical,
-                                 shrinkWrap: true,
-                                 children: [
-                                   Row(
-                                     children: <Widget>[
-                                       _story.usersPosts(context),
-                                     ],
-                                   ),
-                                 ],
+                      child: Row(
+                        children: <Widget>[
+                          Flexible(
+                            child:Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                width: 300,
+                                height: 70,
+                                alignment: Alignment.centerLeft,
+                                child: ListView(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  children: [
+                                    Row(
+                                      children: <Widget>[
+                                        _story.usersPosts(context),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        Flexible(
-                           child:Align(
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          Flexible(
+                            child:Align(
                               alignment: Alignment.centerRight,
                               child: Container(
-                                 width: 40.0,
-                                 height: 70,
-                                 alignment:Alignment.centerRight,
-                                 child: Text.rich(
-                                    TextSpan(text: ':', style: const TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
-                                        recognizer: TapGestureRecognizer()..onTap = (){
-                                       }
-                                    ),
-                                 ),
-                             ),
-                           ),
-                        ),
-                      ],
-                    ),
+                                width: 40.0,
+                                height: 70,
+                                alignment:Alignment.centerRight,
+                                child: Text.rich(
+                                  TextSpan(text: ':', style: const TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
+                                      recognizer: TapGestureRecognizer()..onTap = (){
+                                      }
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                   Container(
@@ -691,19 +714,19 @@ class  MyCustomFormState extends State <NewsFeed>{
                     height: 200,
                     alignment:Alignment.center,
                     child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                         child: Container(
-                           height: 200,
-                           alignment:Alignment.centerLeft,
-                           decoration: BoxDecoration(
-                             //color: Colors.grey,
-                               borderRadius: BorderRadius.circular(8.0),
-                               shape: BoxShape.rectangle,
-                               image: const DecorationImage(
-                                   fit:BoxFit.fill,
-                                 image: AssetImage('assets/ImgNewsFeedOne.png'),)
-                         ),
-                     ),
+                      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
+                      child: Container(
+                        height: 200,
+                        alignment:Alignment.centerLeft,
+                        decoration: BoxDecoration(
+                          //color: Colors.grey,
+                            borderRadius: BorderRadius.circular(8.0),
+                            shape: BoxShape.rectangle,
+                            image: const DecorationImage(
+                              fit:BoxFit.fill,
+                              image: AssetImage('assets/ImgNewsFeedOne.png'),)
+                        ),
+                      ),
                     ),
                   ),
                   Container(
@@ -712,25 +735,25 @@ class  MyCustomFormState extends State <NewsFeed>{
                   ),
                   Container(
                     width: 350.0,
-                    height: 70,
+                    height: 80,
                     alignment:Alignment.center,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           SizedBox(
-                            width: 50.0,
-                            height: 70.0,
+                            width: 60.0,
+                            height: 80.0,
                             child: Stack(
                               children:  <Widget>[
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child:Container(
-                                    height: 25.0,
+                                    height: 30.0,
                                     alignment:Alignment.center,
-                                    child: IconButton(icon: const Icon(Icons.home), iconSize: 25,color:Colors.grey,
+                                    child: IconButton(icon: const Icon(Icons.home), iconSize: 30,color:Colors.grey,
                                         onPressed: ()
                                         {
                                           Navigator.push(context, MaterialPageRoute(
@@ -742,7 +765,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child:Container(
-                                    height: 15.0,
+                                    height: 20.0,
                                     alignment:Alignment.center,
                                   ),
                                 ),
@@ -753,7 +776,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -765,16 +788,16 @@ class  MyCustomFormState extends State <NewsFeed>{
                             width: 30.0,
                           ),
                           SizedBox(
-                            width: 50.0,
-                            height: 70.0,
+                            width: 60.0,
+                            height: 80.0,
                             child: Stack(
                               children:  <Widget>[
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child:Container(
-                                    height: 25.0,
+                                    height: 30.0,
                                     alignment:Alignment.center,
-                                    child: IconButton(icon: const Icon(Icons.feed), iconSize: 25,color:Colors.red,
+                                    child: IconButton(icon: const Icon(Icons.feed), iconSize: 30,color:Colors.red,
                                         onPressed: ()
                                         {
                                           Navigator.push(context, MaterialPageRoute(
@@ -786,7 +809,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child:Container(
-                                    height: 15.0,
+                                    height: 20.0,
                                     alignment:Alignment.center,
                                   ),
                                 ),
@@ -797,7 +820,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.red,
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -809,28 +832,28 @@ class  MyCustomFormState extends State <NewsFeed>{
                             width: 30.0,
                           ),
                           SizedBox(
-                            width: 50.0,
-                            height: 70.0,
+                            width: 60.0,
+                            height: 80.0,
                             child: Stack(
                               children:  <Widget>[
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child:Container(
-                                    height: 25.0,
+                                    height: 30.0,
                                     alignment:Alignment.center,
-                                    child: IconButton(icon: const Icon(Icons.event), iconSize: 25,color:Colors.grey,
-                                        onPressed: ()
-                                        {
+                                    child: IconButton(icon: const Icon(Icons.event), iconSize: 30,color:Colors.grey,
+                                        onPressed: null //()
+                                        /*{
                                           Navigator.push(context, MaterialPageRoute(
                                               builder: (context) => HomePage(userId: '',)));
-                                        }
+                                        }*/
                                     ),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child:Container(
-                                    height: 15.0,
+                                    height: 20.0,
                                     alignment:Alignment.center,
                                   ),
                                 ),
@@ -841,7 +864,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -850,31 +873,31 @@ class  MyCustomFormState extends State <NewsFeed>{
                             ),
                           ),
                           Container(
-                            width: 20.0,
+                            width: 30.0,
                           ),
                           SizedBox(
-                            width: 50.0,
-                            height: 70.0,
+                            width: 60.0,
+                            height: 80.0,
                             child: Stack(
                               children:  <Widget>[
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child:Container(
-                                    height: 25.0,
+                                    height: 30.0,
                                     alignment:Alignment.center,
-                                    child: IconButton(icon: const Icon(Icons.chat), iconSize: 25,color:Colors.grey,
-                                        onPressed: ()
-                                        {
+                                    child: IconButton(icon: const Icon(Icons.chat), iconSize: 30,color:Colors.grey,
+                                        onPressed: null //()
+                                        /*{
                                           Navigator.push(context, MaterialPageRoute(
                                               builder: (context) => Chat()));
-                                        }
+                                        }*/
                                     ),
                                   ),
                                 ),
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child:Container(
-                                    height: 15.0,
+                                    height: 20.0,
                                     alignment:Alignment.center,
                                   ),
                                 ),
@@ -885,7 +908,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       color: Colors.grey,
-                                      fontSize: 14,
+                                      fontSize: 15,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -894,23 +917,23 @@ class  MyCustomFormState extends State <NewsFeed>{
                             ),
                           ),
                           Container(
-                            width: 20.0,
+                            width: 30.0,
                           ),
                           SizedBox(
                             width: 60.0,
-                            height: 70.0,
+                            height: 80.0,
                             child: Stack(
                               children:  <Widget>[
                                 Align(
                                   alignment: Alignment.topCenter,
                                   child:Container(
-                                    height: 25.0,
+                                    height: 30.0,
                                     alignment:Alignment.center,
-                                    child: IconButton(icon: const Icon(Icons.settings), iconSize: 25,color:Colors.grey,
+                                    child: IconButton(icon: const Icon(Icons.settings), iconSize: 30,color:Colors.grey,
                                         onPressed: ()
                                         {
                                           Navigator.push(context, MaterialPageRoute(
-                                              builder: (context) => Chat()));
+                                              builder: (context) => Settings(userId:widget.userId.toString(),)));
                                         }
                                     ),
                                   ),
@@ -918,7 +941,7 @@ class  MyCustomFormState extends State <NewsFeed>{
                                 Align(
                                   alignment: Alignment.bottomCenter,
                                   child:Container(
-                                    height: 15.0,
+                                    height: 20.0,
                                     alignment:Alignment.center,
                                   ),
                                 ),
@@ -938,28 +961,29 @@ class  MyCustomFormState extends State <NewsFeed>{
                             ),
                           ),
                           Container(
-                            width: 10.0,
+                            width: 0.0,
                           ),
                         ],
                       ),
                     ),
                   ),
-                  Expanded(
-                    child:Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        height: 20.0,
-                        width: 350.0,
-                        alignment:Alignment.center,
-                        child: const CheckConnectivity(),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Container(
+                      height: 20.0,
+                      width: 350.0,
+                      alignment:Alignment.center,
+                      child:  DataConnectivity(),
                     ),
                   ),
-                  //throw UnimplementedError();
-                ],
-              ),
-            )
-        )
+                  ],
+                );
+                }
+                ),
+            ),
+          ),
+          ),
+        ),
     );
   }
 

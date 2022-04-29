@@ -5,6 +5,7 @@ import 'package:burnit_app/onboardingtwo.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:responsive_framework/responsive_wrapper.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -29,16 +30,30 @@ class  MyCustomFormState extends State < OnboardingThree>{
   Widget build(BuildContext context) {
     return Form(
         key: _formKey,
-        child: Scaffold(
+        child: ResponsiveWrapper(
+          maxWidth: 1200,
+          minWidth: 480,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(2460, name: '4K'),
+          ],
+          child: SizedBox(
+          width: 1000.0,
+          //height: MediaQuery.of(context).size.height * 1.17,
+          height: 1000.0,
+          child: Scaffold(
           appBar: PreferredSize(
             child: Container(
               margin: const EdgeInsets.only(top:40.0),
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 7),
-              height: 45.0,
+              height: 50.0,
               width: 350.0,
               alignment:Alignment.centerLeft,
               child: Container(
-                width: 35.0,
+                width: 40.0,
                 alignment:Alignment.centerLeft,
                 decoration: BoxDecoration(
                   border: Border.all(
@@ -49,7 +64,7 @@ class  MyCustomFormState extends State < OnboardingThree>{
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Container(
-                    width: 35.0,
+                    width: 40.0,
                     alignment:Alignment.center,
                     child: GestureDetector(
                       onTap: () {
@@ -79,7 +94,7 @@ class  MyCustomFormState extends State < OnboardingThree>{
                   children: <Widget>[
                 Container(
                   margin: const EdgeInsets.all(156),
-                  padding: const EdgeInsets.all(80),
+                  padding: const EdgeInsets.all(120),
                 ),
                 Container(
                   width: 350,
@@ -88,9 +103,9 @@ class  MyCustomFormState extends State < OnboardingThree>{
                     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
                   child: RichText(
                     text: const TextSpan(text: '01',
-                      style: TextStyle(color: Colors.black, fontSize: 24,fontWeight: FontWeight.bold,),
+                      style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
                       children: [
-                        TextSpan(text: '/03', style: TextStyle(color: Colors.black54, fontSize: 16,fontWeight: FontWeight.bold,),
+                        TextSpan(text: '/03', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
 
                         )
                       ],
@@ -107,16 +122,20 @@ class  MyCustomFormState extends State < OnboardingThree>{
                   alignment:Alignment.centerLeft,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-                  child: RichText(
-                    text: const TextSpan(text: 'Get Fit with us',
-                      style: TextStyle(color: Colors.black, fontSize: 26,fontWeight: FontWeight.bold,),
-                      children: [
-                        TextSpan(text: '\nLorem ipsum dolar sit amet, consectetur'
-                            '\nadipiscing, elit,sed do elusrrod tempar''\nincididunt ut labore et dolore', style: TextStyle(color: Colors.black54, fontSize: 18,fontWeight: FontWeight.bold,),
-                        )
-                      ],
-                    ),
-                  ),
+                      child: Align (
+                        alignment:Alignment.centerLeft,
+                        child: RichText(
+                          textAlign: TextAlign.left,
+                           text: const TextSpan(text: 'Get Fit with us\n',
+                           style: TextStyle(color: Colors.black, fontSize: 30,fontWeight: FontWeight.bold,),
+                           children: [
+                              TextSpan(text: '\nLorem ipsum dolar sit amet, consectetur'
+                               '\nadipiscing, elit,sed do elusrrod tempar''\nincididunt ut labore et dolore', style: TextStyle(color: Colors.black54, fontSize: 20,fontWeight: FontWeight.bold,),
+                              )
+                           ],
+                         ),
+                        ),
+                      ),
                   ),
                 ),
                 Container(
@@ -173,6 +192,7 @@ class  MyCustomFormState extends State < OnboardingThree>{
                  ],//throw U
               ),
           ),
+        ),),
         ),
     );
   }//throw UnimplementedError();
